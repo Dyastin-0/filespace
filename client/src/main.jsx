@@ -9,11 +9,9 @@ import { ToastProvider } from "./components/hooks/useToast.jsx";
 createRoot(document.getElementById("root")).render(
   <AuthProvider>
     <BrowserRouter>
-      <StrictMode>
-        <ToastProvider>
-          <App />
-        </ToastProvider>
-      </StrictMode>
+      <ToastProvider>
+        <App />
+      </ToastProvider>
     </BrowserRouter>
   </AuthProvider>
 );

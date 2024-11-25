@@ -141,14 +141,14 @@ const SigninForm = ({}) => {
         />
       </div>
       <Link
-        to={`/account/verify`}
+        to={`/auth/verification`}
         className="self-center w-fit pt-2 outline-none text-primary-foreground text-xs transition-colors duration-300 focus:text-primary-highlight focus:underline"
       >
         {" "}
         Verify your account{" "}
       </Link>
       <Link
-        to={`/sign-up`}
+        to={`/signup`}
         className="self-center w-fit pt-2 outline-none text-primary-foreground text-xs transition-colors duration-300 focus:text-primary-highlight focus:underline"
       >
         {" "}
