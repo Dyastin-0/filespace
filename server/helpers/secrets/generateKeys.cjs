@@ -22,6 +22,7 @@ const generateKeys = async () => {
       `REFRESH_TOKEN_SECRET=${refreshKey}`,
       `EMAIL_TOKEN_SECRET=${emailKey}`,
       `BASE_CLIENT_URL=https://filespace.dyastin.tech`,
+      "PORT=3000",
     ];
 
     const fileContent = fs.readFileSync(envFilePath, { encoding: "utf8" });

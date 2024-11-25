@@ -17,7 +17,7 @@ const Verification = () => {
 
       try {
         const response = await axios.post(
-          `/email/verify?verificationToken=${verificationToken}`
+          `/auth/verify?verificationToken=${verificationToken}`
         );
         setMessage(response.data.message);
       } catch (error) {

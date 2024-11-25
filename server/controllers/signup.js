@@ -1,6 +1,8 @@
 import Users from "../models/user.js";
 import jwt from "jsonwebtoken";
-import { hash } from "../helpers/hash.js"
+import { hash } from "../helpers/hash.js";
+import { sendHtmlEmail } from "../helpers/email.js";
+import { emailTemplate } from "../templates/email.js";
 
 /**
  * Handles user signup by validating input, creating a new user,
@@ -58,6 +60,17 @@ const handleSignup = async (req, res) => {
     await Users.updateOne(
       { email: email },
       { $set: { verificationToken: verificationToken } }
+    );
+
+    sendHtmlEmail(
+      email,
+      "Verify your Filmpin account",
+      emailTemplate(
+        `Welcome to Filmpin, ${username}!`,
+        "To proceed with accessing our app, please click the link below. You may disregard this email if you did not sign up to our up.",
+        `${process.env.BASE_CLIENT_URL}/auth/verify?verificationToken=${verificationToken}`,
+        "Verify your account"
+      )
     );
 
     res.sendStatus(200);

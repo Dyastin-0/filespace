@@ -64,7 +64,7 @@ const handleSendVerification = async (req, res) => {
       emailTemplate(
         `Verify your account, ${email}.`,
         "To proceed with verifying your account, please click the link below. You may disregard this email if you did not request it.",
-        `${process.env.BASE_CLIENT_URL}/account/verification?verificationToken=${verificationToken}`,
+        `${process.env.BASE_CLIENT_URL}/auth/verify?verificationToken=${verificationToken}`,
         "Verify your account"
       )
     );
