@@ -36,7 +36,6 @@ const handleRefreshAccessToken = async (req, res) => {
       async (error, decoded) => {
         if (error) return res.sendStatus(403);
         const hackedUser = await Users.findOne({ email: decoded.email });
-        console.log(hackedUser);
         await Users.updateOne(
           { email: hackedUser.email },
           { $set: { refreshToken: [] } }

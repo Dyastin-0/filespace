@@ -34,7 +34,6 @@ const Home = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Upload successful:", response.data);
     } catch (error) {
       console.error("Error uploading files:", error);
     }
@@ -45,9 +44,6 @@ const Home = () => {
     async () => {
       const response = await api.get("/files");
       return response.data;
-    },
-    {
-      onSuccess: (data) => console.log("Files fetched successfully:", data),
     }
   );
 

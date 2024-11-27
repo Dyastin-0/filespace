@@ -65,8 +65,6 @@ const handleFetchFiles = async (req, res) => {
           expires: Date.now() + 15 * 60 * 1000,
         });
 
-        console.log(file.metadata);
-
         return {
           name: file.name.split("/").pop(),
           url,
