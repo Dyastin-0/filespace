@@ -7,9 +7,13 @@ import corsOptions from "./configs/corsOption.js";
 import mongoose from "mongoose";
 
 import authRoute from "./routes/auth.js";
+import fileRoute from "./routes/api/file.js";
 
 import dotenv from "dotenv";
+import verifyJsonWebToken from "./middlewares/verifyJsonWebToken.js";
 dotenv.config();
+
+const version = process.env.VERSION;
 
 const app = express();
 const server = http.createServer(app);
@@ -25,7 +29,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/auth", authRoute);
+app.use(`/api/${version}/auth`, authRoute);
+
+app.use(verifyJsonWebToken);
+
+app.use(`/api/${version}/files`, fileRoute);
 
 server.listen(process.env.PORT, () => {
   console.log(`Express is running on port: ${process.env.PORT}.`);

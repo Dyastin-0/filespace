@@ -23,6 +23,9 @@ const generateKeys = async () => {
       `EMAIL_TOKEN_SECRET=${emailKey}`,
       `BASE_CLIENT_URL=https://filespace.dyastin.tech`,
       "PORT=3000",
+      "VERSION=v1",
+      "GCLOUD_PROJECT_ID=filespace-442811",
+      "GOOGLE_APPLICATION_CREDENTIALS=./secretsaccesor.json",
     ];
 
     const fileContent = fs.readFileSync(envFilePath, { encoding: "utf8" });
