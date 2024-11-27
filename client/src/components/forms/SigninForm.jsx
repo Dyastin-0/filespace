@@ -148,7 +148,7 @@ const SigninForm = ({}) => {
         Verify your account{" "}
       </Link>
       <Link
-        to={`/signup`}
+        to={`/sign-up`}
         className="self-center w-fit pt-2 outline-none text-primary-foreground text-xs transition-colors duration-300 focus:text-primary-highlight focus:underline"
       >
         {" "}

@@ -76,7 +76,7 @@ const SignupForm = () => {
       setCredentials({ username: "", email: "", password: "" });
       setConfirmedPassword("");
       toastInfo("Sign up success! Check your email for the verification link.");
-      navigate("/signin", { state: { from: "/signup" } });
+      navigate("/sign-in", { state: { from: "/signup" } });
     } catch (error) {
       toastError(error.response.data.message);
     } finally {

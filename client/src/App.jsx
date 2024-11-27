@@ -1,6 +1,7 @@
 import { lazy, Suspense, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
+import Navbar from "./components/Navbar";
 
 const Signin = lazy(() => import("./pages/Signin"));
 const Signup = lazy(() => import("./pages/Signup"));
@@ -12,12 +13,15 @@ axios.defaults.withCredentials = true;
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="/signin" element={<Signin />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/auth/verification" element={<Verification />} />
-      <Route path="/auth/verify" element={<Verify />} />
-    </Routes>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/sign-in" element={<Signin />} />
+        <Route path="/sign-up" element={<Signup />} />
+        <Route path="/auth/verification" element={<Verification />} />
+        <Route path="/auth/verify" element={<Verify />} />
+      </Routes>
+    </>
   );
 };
 

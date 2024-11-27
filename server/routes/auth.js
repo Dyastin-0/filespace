@@ -12,8 +12,8 @@ const router = express.Router();
 
 router.post("/", handleAuth);
 router.get("/refresh", handleRefreshAccessToken);
-router.post("/signup", handleSignup);
-router.post("/signout", handleSignout);
+router.post("/sign-up", handleSignup);
+router.post("/sign-out", handleSignout);
 router.post("/verify", handleVerifyEmail);
 router.post("/send/verification", handleSendVerification);
 
