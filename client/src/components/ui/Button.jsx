@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 
 const variants = {
@@ -6,7 +7,7 @@ const variants = {
   danger:
     "p-2 font-semibold bg-secondary text-danger rounded-md hover:bg-danger hover:text-primary-foreground",
   link: "text-primary-foreground font-bold transition-all duration-300 hover:cursor-pointer hover:text-primary-highlight focus:shadow-[var(--highlight)_0_2px_0_0] pb-1",
-  ghost: "text-primary-foreground rounded-md shadow-sm p-2",
+  ghost: "text-primary-foreground rounded-md p-2",
 };
 
 const Button = ({
@@ -39,7 +40,7 @@ const Button = ({
       {text}
       {icon && (
         <div className="flex items-center justify-center min-w-[14px] min-h-[14px] max-h-[18px] max-w-[18px]">
-          {icon}
+          {<FontAwesomeIcon icon={icon} />}
         </div>
       )}
     </button>

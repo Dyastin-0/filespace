@@ -50,7 +50,7 @@ const handleAuth = async (req, res) => {
   if (matched) {
     const accessToken = jwt.sign(
       {
-        UserInfo: {
+        user: {
           username: user.username,
           email: user.email,
           roles: user.roles,
@@ -125,7 +125,7 @@ const handleGoogleAuth = async (req, res) => {
 
   const accessToken = jwt.sign(
     {
-      UserInfo: {
+      user: {
         username: user.username,
         email: user.email,
         roles: user.roles,
@@ -181,9 +181,9 @@ const handleGoogleAuth = async (req, res) => {
   } = user.toJSON();
 
   res.redirect(
-    `${process.env.BASE_CLIENT_URL}/sign-in?token=${accessToken}&user=${JSON.stringify(
-      userData
-    )}`
+    `${
+      process.env.BASE_CLIENT_URL
+    }/sign-in?token=${accessToken}&user=${JSON.stringify(userData)}`
   );
 };
 

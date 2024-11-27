@@ -1,8 +1,10 @@
 import { useState, useRef } from "react";
 import Button from "./Button";
 import { motion } from "framer-motion";
+import clsx from "clsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const Dropdown = ({ name, icon, children }) => {
+export const Dropdown = ({ name, icon, children, className, variant }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -18,10 +20,13 @@ export const Dropdown = ({ name, icon, children }) => {
   };
 
   return (
-    <div className="relative flex items-center z-50" ref={dropdownRef}>
+    <div
+      className={clsx("relative flex items-center z-50", className)}
+      ref={dropdownRef}
+    >
       <Button
         icon={icon}
-        variant="default_rounded"
+        variant={variant}
         text={name}
         onClick={toggle}
         onBlur={handleBlur}
@@ -36,9 +41,9 @@ export const Dropdown = ({ name, icon, children }) => {
         transition={0}
         onFocus={() => setIsOpen(true)}
         className={`absolute flex flex-col items-end top-full mt-2 right-0 z-50
-					text-primary-foreground text-xs bg-accent
+					text-primary-foreground text-xs bg-secondary
 					w-fit max-h-[200px] overflow-auto
-					p-2 gap-2 shadow-md rounded-md`}
+					p-1.5 gap-1.5 shadow-md rounded-md`}
         onBlur={handleBlur}
         onMouseUp={() => setIsOpen(false)}
       >
@@ -48,22 +53,34 @@ export const Dropdown = ({ name, icon, children }) => {
   );
 };
 
-export const DropdownItem = ({ onClick, children, setOpen, asChild }) => {
+export const DropdownItem = ({
+  onClick,
+  children,
+  setOpen,
+  asChild,
+  text,
+  icon,
+  type,
+}) => {
   return asChild ? (
     children
   ) : (
     <button
-      className="text-right w-full text-nowrap text-primary-foreground text-xs outline-none p-1.5 rounded-md
-			transition-all duration-300
-			hover:bg-secondary hover:cursor-pointer focus:bg-secondary"
+      className="flex text-right w-full justify-end items-center
+      text-nowrap text-primary-foreground text-xs
+      outline-none p-2 rounded-md transition-all duration-300 gap-1
+			hover:bg-primary hover:cursor-pointer focus:bg-primary
+      active:shadow-[var(--highlight)_0_0_0_2px]"
       onFocus={setOpen}
+      type={type}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
         onClick();
       }}
     >
-      {children}
+      {text}
+      <FontAwesomeIcon icon={icon} />
     </button>
   );
 };

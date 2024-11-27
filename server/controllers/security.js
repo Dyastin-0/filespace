@@ -284,7 +284,7 @@ const handleSendPasswordUpdate = async (req, res) => {
 
     const passwordResetToken = jwt.sign(
       {
-        UserInfo: {
+        user: {
           username: user.username,
           email: user.email,
           roles: user.roles,
@@ -338,7 +338,7 @@ const handleUpdatePassword = async (req, res) => {
       passwordResetToken,
       process.env.EMAIL_TOKEN_SECRET,
       async (error, decoded) => {
-        const { email } = decoded.UserInfo;
+        const { email } = decoded.user;
         if (error)
           return res.status(400).json({ message: "Invalid or expired token." });
 

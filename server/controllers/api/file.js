@@ -7,7 +7,7 @@ const storage = new Storage({
 const bucket = storage.bucket("filespace-bucket");
 
 const handleUploadFile = async (req, res) => {
-  const { _id } = req.user;
+  const { id } = req.user;
   const files = req.files;
 
   if (!files || files.length === 0) {
@@ -20,22 +20,23 @@ const handleUploadFile = async (req, res) => {
     const filesToUpload = Array.isArray(files) ? files : [files];
 
     const uploadPromises = filesToUpload.map(async (file) => {
-      const fileName = `${_id}/${Date.now()}-${file.originalname}`;
+      const fileName = `${id}/${file.originalname}`;
 
       const fileUpload = bucket.file(fileName);
 
-      const stream = fileUpload.createWriteStream({
+      await fileUpload.save(file.buffer, {
         resumable: false,
         metadata: {
           contentType: file.mimetype,
+          owner: id,
         },
       });
 
-      await new Promise((resolve, reject) => {
-        file.stream.pipe(stream).on("finish", resolve).on("error", reject);
+      await fileUpload.setMetadata({
+        metadata: {
+          owner: id,
+        },
       });
-
-      await fileUpload.makePublic();
 
       return `File uploaded successfully: ${fileName}`;
     });
@@ -49,4 +50,42 @@ const handleUploadFile = async (req, res) => {
   }
 };
 
-export { handleUploadFile };
+const handleFetchFiles = async (req, res) => {
+  const { id } = req.user;
+
+  try {
+    const [files] = await bucket.getFiles({
+      prefix: `${id}/`,
+    });
+
+    const filesMetaData = await Promise.all(
+      files.map(async (file) => {
+        const [url] = await file.getSignedUrl({
+          action: "read",
+          expires: Date.now() + 15 * 60 * 1000,
+        });
+
+        console.log(file.metadata);
+
+        return {
+          name: file.name.split("/").pop(),
+          url,
+          owner: file.metadata.owner,
+          size: file.metadata.size,
+          updated: file.metadata.updated,
+          contentType: file.metadata.contentType,
+          created: file.metadata.timeCreated,
+          type: file.metadata.contentType.split("/").pop(),
+          metadata: file.metadata.metadata,
+        };
+      })
+    );
+
+    return res.status(200).send(filesMetaData);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+export { handleUploadFile, handleFetchFiles };

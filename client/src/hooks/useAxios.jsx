@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useAuth } from "../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";

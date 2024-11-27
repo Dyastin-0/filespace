@@ -1,15 +1,10 @@
 import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 
-export const useThemeToggle = () => {
+const useThemeToggle = () => {
   const [icon, setIcon] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
-    return (
-      <div className="flex items-center justify-center w-[14px] h-[14px]">
-        <FontAwesomeIcon icon={savedTheme === "dark" ? faMoon : faSun} />
-      </div>
-    );
+    return savedTheme === "dark" ? faMoon : faSun;
   });
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -26,11 +21,7 @@ export const useThemeToggle = () => {
     );
     document.documentElement.classList.add(theme);
     localStorage.setItem("theme", theme);
-    setIcon(
-      <div className="flex items-center justify-center w-[14px] h-[14px]">
-        <FontAwesomeIcon icon={theme === "dark" ? faMoon : faSun} />
-      </div>
-    );
+    setIcon(theme === "dark" ? faMoon : faSun);
   }, [theme]);
 
   const toggleTheme = () => {
@@ -39,3 +30,5 @@ export const useThemeToggle = () => {
 
   return { theme, toggleTheme, icon };
 };
+
+export default useThemeToggle;

@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 import axios from "axios";
 import Button from "./ui/Button";
 import { Dropdown, DropdownItem } from "./ui/Dropdown";
-import { useThemeToggle } from "../hooks/useTheme";
+import useThemeToggle from "../hooks/useTheme";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
   faGear,
-  faSignOutAlt,
+  faSignOut,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { routes, authRoutes } from "../helpers/routes";
@@ -51,7 +51,7 @@ const Navbar = ({ toggleSideNavbar }) => {
 
   return (
     <motion.div
-      className={`sticky top-4 flex justify-between rounded-lg w-full p-3 gap-3 shadow-sm z-40 bg-primary
+      className={`sticky flex justify-between w-full p-3 gap-3 shadow-sm z-40 bg-primary
       ${lastScrollY > 50 ? "border border-secondary-accent" : ""}`}
       initial={{ y: 0 }}
       animate={isScrollingDown ? { y: -100 } : { y: 0 }}
@@ -93,6 +93,7 @@ const Navbar = ({ toggleSideNavbar }) => {
         />
         {token && (
           <Dropdown
+            variant="default_rounded"
             name={
               user.profileImageURL ? (
                 <img
@@ -102,8 +103,8 @@ const Navbar = ({ toggleSideNavbar }) => {
                 />
               ) : (
                 <div
-                  className="flex justify-center items-center w-[14px] h-[14px] rounded-full bg-secondary
-                font-semibold text-primary-highlight text-xs"
+                  className="flex justify-center items-center w-[14px] h-[14px] rounded-full
+                  bg-primary font-semibold text-primary-highlight text-xs"
                 >
                   <p className="text-center">{user.username[0]}</p>
                 </div>
@@ -115,7 +116,7 @@ const Navbar = ({ toggleSideNavbar }) => {
                 to={`/${user.username}`}
                 className="flex p-2 text-xs text-primary-foreground outline-none rounded-md
                 transition-all duration-300 w-full justify-end items-center
-                hover:bg-secondary hover:cursor-pointer focus:bg-secondary"
+                hover:bg-primary hover:cursor-pointer focus:bg-primary"
               >
                 Profile
                 <FontAwesomeIcon size="xs" icon={faUser} className="ml-1" />
@@ -126,16 +127,17 @@ const Navbar = ({ toggleSideNavbar }) => {
                 to="/settings"
                 className="flex p-2 text-xs text-primary-foreground outline-none rounded-md
                 transition-all duration-300 w-full justify-end items-center
-                hover:bg-secondary hover:cursor-pointer focus:bg-secondary"
+                hover:bg-primary hover:cursor-pointer focus:bg-primary"
               >
                 Settings
                 <FontAwesomeIcon size="xs" icon={faGear} className="ml-1" />
               </DomLink>
             </DropdownItem>
-            <DropdownItem onClick={handleSignout}>
-              Sign out
-              <FontAwesomeIcon size="xs" icon={faSignOutAlt} className="ml-1" />
-            </DropdownItem>
+            <DropdownItem
+              text="Sign out"
+              icon={faSignOut}
+              onClick={handleSignout}
+            />
           </Dropdown>
         )}
       </div>

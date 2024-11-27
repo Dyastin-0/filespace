@@ -61,7 +61,7 @@ const handleRefreshAccessToken = async (req, res) => {
       if (error || user.email !== decoded.email) return res.sendStatus(403);
       const accessToken = jwt.sign(
         {
-          UserInfo: {
+          user: {
             username: user.username,
             email: user.email,
             roles: user.roles,

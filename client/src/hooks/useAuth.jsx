@@ -3,7 +3,7 @@ import axios from "axios";
 
 const AuthContext = createContext();
 
-export const useAuth = () => useContext(AuthContext);
+const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
   const [signingIn, setSigningIn] = useState(true);
@@ -36,3 +36,5 @@ export function AuthProvider({ children }) {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
+
+export default useAuth;
