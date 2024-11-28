@@ -104,7 +104,7 @@ const Navbar = ({ toggleSideNavbar }) => {
               ) : (
                 <div
                   className="flex justify-center items-center w-[14px] h-[14px] rounded-full
-                  bg-primary font-semibold text-primary-highlight text-xs"
+                  font-semibold text-primary-highlight text-xs"
                 >
                   <p className="text-center">{user.username[0]}</p>
                 </div>

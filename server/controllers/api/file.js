@@ -14,7 +14,7 @@ const handleUploadFile = async (req, res) => {
     return res.status(400).send("No file/s to upload.");
 
   try {
-    const files = Array.isArray(_files) ? files : [_files];
+    const files = Array.isArray(_files) ? _files : [_files];
 
     const fileUploads = files.map(async (file) => {
       const fileName = `${id}/${file.originalname}`;
@@ -62,7 +62,7 @@ const handleFetchFiles = async (req, res) => {
         });
 
         return {
-          name: file.name.split("/").pop(),
+          name: file.metadata.name.replace(`${id}/`, ""),
           url,
           owner: file.metadata.owner,
           size: file.metadata.size,
@@ -82,4 +82,36 @@ const handleFetchFiles = async (req, res) => {
   }
 };
 
-export { handleUploadFile, handleFetchFiles };
+const handleCreateFolder = async (req, res) => {
+  const { id } = req.user; // Assuming you have user authentication.
+  const { folderName } = req.body;
+
+  if (!folderName) {
+    return res.status(400).send("No folder name provided.");
+  }
+
+  try {
+    // Define the folder path with a trailing slash
+    const folderPath = `${id}/${folderName}/`;
+
+    // Create a reference to the "folder"
+    const newFolder = bucket.file(folderPath);
+
+    // Save an empty file to represent the folder
+    await newFolder.save("", {
+      metadata: {
+        contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+        metadata: {
+          owner: id,
+        },
+      },
+    });
+
+    return res.status(200).send(`Folder created successfully: ${folderName}`);
+  } catch (error) {
+    console.error("Error creating folder:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+export { handleUploadFile, handleFetchFiles, handleCreateFolder };

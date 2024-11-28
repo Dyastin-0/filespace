@@ -1,12 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import Button from "../ui/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 
 const ModalContext = createContext();
 
-export const useModal = () => useContext(ModalContext);
+const useModal = () => useContext(ModalContext);
 
 export function ModalProvider({ children }) {
   const [modal, setModal] = useState(null);
@@ -41,7 +40,7 @@ export function ModalProvider({ children }) {
                 <Button
                   variant="default_rounded"
                   onClick={() => setOpen(false)}
-                  icon={<FontAwesomeIcon icon={faX} />}
+                  icon={faX}
                   className="fixed top-4 right-4 text-[.75rem]"
                 />
                 {modal}
@@ -54,3 +53,5 @@ export function ModalProvider({ children }) {
     </ModalContext.Provider>
   );
 }
+
+export default useModal;

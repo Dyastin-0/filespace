@@ -5,7 +5,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import { useToast } from "../hooks/useToast";
 import { ShowPassword } from "../ui/ShowPassword";
 import Input from "../ui/Input";
@@ -131,7 +131,7 @@ const SigninForm = ({}) => {
         <p className="text-center text-xs">Or sign in with</p>
         <Button
           text="Google"
-          icon={<FontAwesomeIcon icon={faGoogle} />}
+          icon={faGoogle}
           onClick={(e) => {
             e.preventDefault();
             window.location.href = `${
