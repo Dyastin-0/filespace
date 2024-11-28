@@ -68,7 +68,7 @@ const handleFetchFiles = async (req, res) => {
           size: file.metadata.size,
           updated: file.metadata.updated,
           contentType: file.metadata.contentType,
-          created: file.metadata.timeCreated,
+          createdAt: file.metadata.timeCreated,
           type: file.metadata.contentType.split("/").pop(),
           metadata: file.metadata.metadata,
         };
