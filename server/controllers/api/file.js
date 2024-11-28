@@ -63,7 +63,7 @@ const handleFetchFiles = async (req, res) => {
 
         return {
           name: file.metadata.name.replace(`${id}/`, ""),
-          url,
+          link: url,
           owner: file.metadata.owner,
           size: file.metadata.size,
           updated: file.metadata.updated,

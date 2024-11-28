@@ -1,8 +1,9 @@
 class Node {
-  constructor(type, name, path) {
+  constructor(type, name, path, link) {
     this.type = type;
     this.name = name;
     this.path = path;
+    this.link = link;
     this.children = type === "directory" ? [] : null;
   }
 
@@ -31,7 +32,10 @@ const generateFileTree = (files) => {
       if (!childNode) {
         const type = isLastPart && !isDirectory ? "file" : "directory";
         const fullPath = parts.slice(0, index + 1).join("/");
-        childNode = new Node(type, part, fullPath);
+        childNode =
+          type === "directory"
+            ? new Node(type, part, fullPath)
+            : new Node(type, part, fullPath, file.link);
         currentNode.addChild(childNode);
       }
 

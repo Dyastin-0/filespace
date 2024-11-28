@@ -6,13 +6,12 @@ import { faFolder, faFile } from "@fortawesome/free-solid-svg-icons";
 const MainContent = ({ files }) => {
   if (!files) return null;
 
-  const [fileTree] = useState(generateFileTree(files)); // Tree structure
+  const [fileTree] = useState(generateFileTree(files));
   const [tabs, setTabs] = useState([
-    { name: "Root", path: "", content: fileTree.children }, // Root's children
+    { name: "Root", path: "", content: fileTree.children },
   ]);
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
 
-  // Handle folder click to open a new tab
   const handleFolderClick = (folderNode) => {
     const newTab = {
       name: folderNode.name,
@@ -24,24 +23,31 @@ const MainContent = ({ files }) => {
     setCurrentTabIndex(currentTabIndex + 1);
   };
 
-  // Render files and folders within a tab
-  const renderContent = (nodes) => {
-    if (!nodes) return <div>No files or folders found</div>;
+  const renderContent = (files) => {
+    if (!files) return <div>No files or folders found</div>;
 
-    return nodes.map((node) => {
-      const isFolder = node.type === "directory";
+    return files.map((file) => {
+      const isFolder = file.type === "directory";
 
       return (
         <div
-          key={node.path}
-          className="flex items-center p-2 cursor-pointer hover:bg-secondary rounded"
-          onClick={() => isFolder && handleFolderClick(node)}
+          key={file.path}
+          className="flex items-center p-2 cursor-pointer hover:bg-secondary rounded text-xs"
+          onClick={() => isFolder && handleFolderClick(file)}
         >
           <FontAwesomeIcon
             icon={isFolder ? faFolder : faFile}
-            className={`mr-2 ${isFolder ? "text-blue-500" : "text-gray-500"}`}
+            className={`mr-2 ${
+              isFolder ? "text-primary-highlight" : "text-primary-foreground"
+            }`}
           />
-          <span>{node.name}</span>
+          {isFolder ? (
+            <span className="font-semibold">{file.name}</span>
+          ) : (
+            <a href={file.link} target="_blank" rel="noreferrer">
+              {file.name}
+            </a>
+          )}
         </div>
       );
     });
@@ -51,7 +57,6 @@ const MainContent = ({ files }) => {
     <div className="flex flex-col w-full h-full bg-primary p-4 gap-2 rounded-md text-xs">
       <h1 className="font-semibold">Files</h1>
 
-      {/* Tabs */}
       <div className="flex overflow-x-auto border-b border-secondary mb-2">
         {tabs.map((tab, index) => (
           <div
