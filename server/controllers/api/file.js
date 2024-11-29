@@ -18,7 +18,10 @@ const handleUploadFile = async (req, res) => {
     const files = Array.isArray(_files) ? _files : [_files];
 
     const fileUploads = files.map(async (file) => {
-      const fileName = `${id}/${path}/${file.originalname}`;
+      const fileName =
+        path === ""
+          ? `${id}/${file.originalname}`
+          : `${id}/${path}/${file.originalname}`;
 
       const newFile = bucket.file(fileName);
 
