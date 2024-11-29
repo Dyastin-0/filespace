@@ -64,10 +64,15 @@ const Toast = ({ message, onClose, id, color = "text-primary-foreground" }) => {
       exit={{
         y: 999,
       }}
-      className={`flex justify-center items-center gap-2 bg-secondary text-xs ${color} font-semibold rounded-md p-2 relative`}
+      className={`flex justify-between items-center gap-2 bg-secondary text-xs ${color} font-semibold rounded-md p-2 relative`}
     >
-      {message}
-      <Button variant="default_rounded" onClick={onClose} icon={faX} />
+      <p>{message}</p>
+      <Button
+        variant="default_rounded"
+        onClick={onClose}
+        icon={faX}
+        className="justify-between"
+      />
     </motion.div>
   );
 };
