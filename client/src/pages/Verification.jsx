@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
-import { useToast } from "../components/hooks/useToast";
+import useToast from "../components/hooks/useToast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { Helmet } from "react-helmet";

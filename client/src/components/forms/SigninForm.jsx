@@ -6,14 +6,13 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { useToast } from "../hooks/useToast";
+import useToast from "../hooks/useToast";
 import { ShowPassword } from "../ui/ShowPassword";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 import axios from "axios";
 import Separtor from "../ui/Separator";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SigninForm = ({}) => {
   const emailRef = useRef(null);

@@ -4,7 +4,7 @@ import axios from "axios";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import { ShowPassword } from "../components/utils/ShowPassword";
-import { useToast } from "../components/hooks/useToast";
+import useToast from "../components/hooks/useToast";
 import { testPassword } from "../helpers/regex";
 import ProgressBar from "../components/ui/ProgressBar";
 import { Helmet } from "react-helmet";

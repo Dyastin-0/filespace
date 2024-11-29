@@ -5,10 +5,12 @@ import Folder from "./Folder";
 import File from "./File";
 import useAxios from "../hooks/useAxios";
 import useFiles from "../hooks/useFiles";
+import useToast from "./hooks/useToast";
 
 const Directory = ({ files, handleFolderClick }) => {
   const { api } = useAxios();
   const { mutate } = useFiles();
+  const { toastInfo } = useToast();
 
   const handleDrop = (e) => {
     preventDefault(e);
@@ -20,6 +22,8 @@ const Directory = ({ files, handleFolderClick }) => {
       formData.append("files", file);
     });
 
+    toastInfo("Uploading...");
+
     api
       .post("/files", formData, {
         headers: {
@@ -28,6 +32,7 @@ const Directory = ({ files, handleFolderClick }) => {
       })
       .then(() => {
         mutate();
+        toastInfo("Uploaded successfully");
       });
   };
 

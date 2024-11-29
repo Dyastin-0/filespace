@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import Button from "../ui/Button";
 
@@ -25,7 +24,7 @@ export const ToastProvider = ({ children }) => {
   return (
     <ToastContext.Provider value={{ addToast }}>
       {children}
-      <div className="fixed flex flex-col bottom-4 gap-3 left-4 z-50">
+      <div className="fixed flex flex-col bottom-5 gap-3 left-[50%] transform -translate-x-1/2 z-50">
         <AnimatePresence>
           {toasts.map((toast) => (
             <Toast
@@ -42,7 +41,7 @@ export const ToastProvider = ({ children }) => {
   );
 };
 
-export const useToast = () => {
+const useToast = () => {
   const { addToast } = useContext(ToastContext);
 
   const toastSuccess = (message) => addToast(message, "text-success");
@@ -63,16 +62,14 @@ const Toast = ({ message, onClose, id, color = "text-primary-foreground" }) => {
         y: 0,
       }}
       exit={{
-        x: -999,
+        y: 999,
       }}
-      className={`flex justify-center items-center gap-2 bg-accent text-xs ${color} font-semibold rounded-md p-2 shadow-md relative`}
+      className={`flex justify-center items-center gap-2 bg-secondary text-xs ${color} font-semibold rounded-md p-2 relative`}
     >
       {message}
-      <Button
-        variant="default_rounded"
-        onClick={onClose}
-        icon={<FontAwesomeIcon icon={faX} />}
-      />
+      <Button variant="default_rounded" onClick={onClose} icon={faX} />
     </motion.div>
   );
 };
+
+export default useToast;

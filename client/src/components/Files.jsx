@@ -1,37 +1,19 @@
-import { useEffect, useState } from "react";
-import Separator from "./ui/Separator";
-import useFiles from "../hooks/useFiles";
 import useAuth from "../hooks/useAuth";
 import Directory from "./Directory";
 import DirectoryTabs from "./DirectoryTabs";
+import Separator from "./ui/Separator";
+import useTabs from "../hooks/useTabs";
 
 const Files = () => {
-  const { files } = useFiles();
   const { user } = useAuth();
-
-  const [tabs, setTabs] = useState([]);
-  const [currentTabIndex, setCurrentTabIndex] = useState(0);
-
-  useEffect(
-    () =>
-      files && setTabs([{ name: "Root", path: "", content: files.children }]),
-    [files]
-  );
+  const { tabs, currentTabIndex, currentTab, addTab, switchTab } = useTabs();
 
   const handleFolderClick = (folderNode) => {
-    const newTab = {
-      name: folderNode.name,
-      path: folderNode.path,
-      content: folderNode.children,
-    };
-
-    setTabs((prevTabs) => [...prevTabs.slice(0, currentTabIndex + 1), newTab]);
-    setCurrentTabIndex((prevIndex) => prevIndex + 1);
+    addTab(folderNode);
   };
 
   const handleTabClick = (index) => {
-    setCurrentTabIndex(index);
-    setTabs((prevTabs) => prevTabs.slice(0, index + 1));
+    switchTab(index);
   };
 
   return (
@@ -46,10 +28,7 @@ const Files = () => {
       />
       <Separator />
       {tabs.length > 0 && (
-        <Directory
-          files={tabs[currentTabIndex]}
-          handleFolderClick={handleFolderClick}
-        />
+        <Directory files={currentTab} handleFolderClick={handleFolderClick} />
       )}
     </div>
   );

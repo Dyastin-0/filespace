@@ -35,7 +35,7 @@ const handleUploadFile = async (req, res) => {
         },
       });
 
-      return `File uploaded successfully: ${fileName}`;
+      return newFile;
     });
 
     const fileUploadResults = await Promise.all(fileUploads);
@@ -85,14 +85,14 @@ const handleFetchFiles = async (req, res) => {
 
 const handleCreateFolder = async (req, res) => {
   const { id } = req.user;
-  const { folderName } = req.body;
+  const { folderName, path } = req.body;
 
   if (!folderName) {
     return res.status(400).send("No folder name provided.");
   }
 
   try {
-    const folderPath = `${id}/${folderName}/`;
+    const folderPath = `${id}/${path}/${folderName}/`;
 
     const newFolder = bucket.file(folderPath);
 

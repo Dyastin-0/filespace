@@ -6,17 +6,20 @@ import { AuthProvider } from "./hooks/useAuth.jsx";
 import { ToastProvider } from "./components/hooks/useToast.jsx";
 import { ModalProvider } from "./components/hooks/useModal.jsx";
 import { FilesProvider } from "./hooks/useFiles.jsx";
+import { TabProvider } from "./hooks/useTabs.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <AuthProvider>
-    <BrowserRouter>
-      <ModalProvider>
-        <ToastProvider>
-          <FilesProvider>
-            <App />
-          </FilesProvider>
-        </ToastProvider>
-      </ModalProvider>
-    </BrowserRouter>
-  </AuthProvider>
+  <ToastProvider>
+    <AuthProvider>
+      <FilesProvider>
+        <TabProvider>
+          <ModalProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ModalProvider>
+        </TabProvider>
+      </FilesProvider>
+    </AuthProvider>
+  </ToastProvider>
 );
