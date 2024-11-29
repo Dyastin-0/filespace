@@ -1,10 +1,17 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { Dropdown } from "./ui/Dropdown";
+import { Dropdown, DropdownItem } from "./ui/Dropdown";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import useFiles from "../hooks/useFiles";
+import useAxios from "../hooks/useAxios";
+import useToast from "./hooks/useToast";
 dayjs.extend(relativeTime);
 
 const File = ({ file }) => {
+  const { mutate } = useFiles();
+  const { api } = useAxios();
+  const { toastInfo } = useToast();
+
   const isMb = file.size >= 1024;
 
   return (
@@ -27,7 +34,18 @@ const File = ({ file }) => {
       <span className="text-primary-foreground">
         {dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
       </span>
-      <Dropdown icon={faEllipsisV} className="place-self-end"></Dropdown>
+      <Dropdown icon={faEllipsisV} className="place-self-end">
+        <DropdownItem
+          text="Delete"
+          onClick={() => {
+            toastInfo("Deleting...");
+            api.delete("/files", { data: { path: file.path } }).then(() => {
+              mutate();
+              toastInfo(`Deleted ${file.name}`);
+            });
+          }}
+        />
+      </Dropdown>
     </div>
   );
 };
