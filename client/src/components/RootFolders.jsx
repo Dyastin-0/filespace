@@ -17,6 +17,7 @@ const RootFolders = () => {
         variant="ghost"
         icon={faFolder}
         end={true}
+        iconColor="text-primary-highlight"
       />
       {files?.children?.map(
         (file) =>
@@ -31,6 +32,7 @@ const RootFolders = () => {
               icon={faFolder}
               className="w-full"
               end={true}
+              iconColor="text-primary-highlight"
             />
           )
       )}

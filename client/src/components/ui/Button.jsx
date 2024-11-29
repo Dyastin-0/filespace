@@ -22,6 +22,7 @@ const Button = ({
   disabled,
   icon,
   end = false,
+  iconColor,
 }) => {
   return (
     <button
@@ -33,7 +34,7 @@ const Button = ({
         } text-xs outline-none transition-all duration-300` +
           "focus:shadow-[var(--accent-secondary)_0_0_0_2px] active:shadow-[var(--highlight)_0_0_0_2px] hover:shadow-[var(--accent-secondary)_0_0_0_2px]",
         variants[variant],
-        className // Apply the className passed from the parent component
+        className
       )}
       type={type}
       onClick={onClick}
@@ -43,7 +44,7 @@ const Button = ({
       {text}
       {icon && (
         <div className="flex items-center justify-center min-w-[14px] min-h-[14px] max-h-[18px] max-w-[18px]">
-          {<FontAwesomeIcon icon={icon} />}
+          {<FontAwesomeIcon className={iconColor} icon={icon} />}
         </div>
       )}
     </button>
