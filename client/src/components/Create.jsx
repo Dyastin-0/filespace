@@ -11,6 +11,7 @@ import useAxios from "../hooks/useAxios";
 import useTabs from "../hooks/useTabs";
 import useFiles from "../hooks/useFiles";
 import useToast from "./hooks/useToast";
+import Separator from "./ui/Separator";
 
 const Create = () => {
   const { currentTab } = useTabs();
@@ -27,7 +28,7 @@ const Create = () => {
     if (!files || files.length === 0) return;
 
     const formData = new FormData();
-    console.log(currentTab.path);
+
     formData.append("path", currentTab.path);
     Array.from(files).forEach((file) => {
       formData.append("files", file);
@@ -48,7 +49,7 @@ const Create = () => {
   };
 
   return (
-    <>
+    <div className="flex flex-col gap-2">
       <Dropdown name="Upload or create" icon={faPlusSquare} className="w-fit">
         <DropdownItem
           text="Folder"
@@ -70,7 +71,8 @@ const Create = () => {
         style={{ display: "none" }}
         onChange={handleFileChange}
       />
-    </>
+      <Separator />
+    </div>
   );
 };
 

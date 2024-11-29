@@ -1,17 +1,19 @@
-const DirectoryTabs = ({ tabs, handleTabClick, currentTabIndex }) => {
+import useTabs from "../hooks/useTabs";
+
+const DirectoryTabs = ({ tabs, currentTab }) => {
+  const { switchTab } = useTabs();
+
   return (
-    <div className="flex overflow-x-auto border-secondary gap-2">
-      {tabs.map((tab, index) => (
+    <div className="flex overflow-x-auto border-secondary">
+      {tabs.map((tab) => (
         <div
           key={tab.path}
-          className={`w-fit p-2 cursor-pointer rounded-md
-							transition-all duration-300 
-							${
-                index === currentTabIndex
-                  ? "bg-secondary text-highlight"
-                  : "text-primary-foreground"
-              }`}
-          onClick={() => handleTabClick(index)}
+          className={`w-fit p-2 cursor-pointer rounded-md transition-all duration-300 ${
+            tab.path === currentTab?.path
+              ? "bg-secondary text-highlight"
+              : "text-primary-foreground"
+          }`}
+          onClick={() => switchTab(tab)}
         >
           {tab.name}
         </div>

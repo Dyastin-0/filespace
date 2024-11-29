@@ -2,6 +2,8 @@ import express from "express";
 
 import {
   handleCreateFolder,
+  handleDeleteFile,
+  handleDeleteFolder,
   handleFetchFiles,
   handleUploadFile,
 } from "../../controllers/api/file.js";
@@ -12,8 +14,9 @@ const router = express.Router();
 router
   .route("/")
   .post(upload.array("files", 5), handleUploadFile)
-  .get(handleFetchFiles);
+  .get(handleFetchFiles)
+  .delete(handleDeleteFile);
 
-router.route("/folder").post(handleCreateFolder);
+router.route("/folder").post(handleCreateFolder).delete(handleDeleteFolder);
 
 export default router;

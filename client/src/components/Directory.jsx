@@ -6,11 +6,14 @@ import File from "./File";
 import useAxios from "../hooks/useAxios";
 import useFiles from "../hooks/useFiles";
 import useToast from "./hooks/useToast";
+import Headers from "./Headers";
+import useTabs from "../hooks/useTabs";
 
-const Directory = ({ files, handleFolderClick }) => {
+const Directory = ({ files }) => {
   const { api } = useAxios();
   const { mutate } = useFiles();
   const { toastInfo } = useToast();
+  const { addTab } = useTabs();
 
   const handleDrop = (e) => {
     preventDefault(e);
@@ -48,22 +51,14 @@ const Directory = ({ files, handleFolderClick }) => {
       onDragLeave={preventDefault}
       onDrop={handleDrop}
     >
-      <div className="flex items-center p-2 cursor-pointer hover:bg-secondary rounded text-xs">
-        <div className="mr-2 w-[12px]" />
-        <div className="grid w-full grid-cols-4 font-semibold">
-          <span>Name</span>
-          <span>Parent</span>
-          <span>Size</span>
-          <span>Created</span>
-        </div>
-      </div>
+      <Headers />
       {files?.content?.map((file) => {
         const isFolder = file.type === "directory";
         return (
           <div
             key={file.path}
             className="flex items-center p-2 cursor-pointer hover:bg-secondary rounded text-xs"
-            onClick={() => isFolder && handleFolderClick(file)}
+            onClick={() => isFolder && addTab(file)}
           >
             <FontAwesomeIcon
               icon={isFolder ? faFolder : faFile}

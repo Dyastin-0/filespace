@@ -95,7 +95,8 @@ const handleCreateFolder = async (req, res) => {
   }
 
   try {
-    const folderPath = `${id}/${path}/${folderName}/`;
+    const folderPath =
+      path === "" ? `${id}/${folderName}/` : `${id}/${path}/${folderName}/`;
 
     const newFolder = bucket.file(folderPath);
 
@@ -115,4 +116,56 @@ const handleCreateFolder = async (req, res) => {
   }
 };
 
-export { handleUploadFile, handleFetchFiles, handleCreateFolder };
+const handleDeleteFile = async (req, res) => {
+  const { id } = req.user;
+  const { fileName } = req.body;
+
+  if (!fileName) {
+    return res.status(400).send("No file name provided.");
+  }
+
+  try {
+    const file = bucket.file(`${id}/${fileName}`);
+
+    await file.delete();
+
+    return res.status(200).send(`File deleted successfully: ${fileName}`);
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+const handleDeleteFolder = async (req, res) => {
+  const { id } = req.user;
+  const { folderName } = req.body;
+
+  if (!folderName) {
+    return res.status(400).send("No folder name provided.");
+  }
+
+  try {
+    const [files] = await bucket.getFiles({
+      prefix: `${id}/${folderName}/`,
+    });
+
+    await Promise.all(
+      files.map(async (file) => {
+        await file.delete();
+      })
+    );
+
+    return res.status(200).send(`Folder deleted successfully: ${folderName}`);
+  } catch (error) {
+    console.error("Error deleting folder:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+export {
+  handleUploadFile,
+  handleFetchFiles,
+  handleCreateFolder,
+  handleDeleteFile,
+  handleDeleteFolder,
+};
