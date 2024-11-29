@@ -2,6 +2,7 @@ import { faFolder } from "@fortawesome/free-solid-svg-icons";
 import useFiles from "../hooks/useFiles";
 import Button from "./ui/Button";
 import useTabs from "../hooks/useTabs";
+import Separator from "./ui/Separator";
 
 const RootFolders = () => {
   const { files } = useFiles();
@@ -9,6 +10,14 @@ const RootFolders = () => {
 
   return (
     <div className="flex flex-col w-ful gap-2">
+      <Button
+        onClick={() => updateTabsToCurrentPath({ path: "" })}
+        text="Root"
+        className="w-full"
+        variant="ghost"
+        icon={faFolder}
+        end={true}
+      />
       {files?.children?.map(
         (file) =>
           file.type === "directory" && (
@@ -25,6 +34,7 @@ const RootFolders = () => {
             />
           )
       )}
+      <Separator />
     </div>
   );
 };
