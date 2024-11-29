@@ -16,6 +16,11 @@ const Directory = ({ files, handleFolderClick }) => {
     preventDefault(e);
     const newFiles = Array.from(e.dataTransfer.files);
 
+    if (!newFiles.length > 5) {
+      toastInfo("You can only upload up to 5 files at a time");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("path", files.path);
     newFiles.forEach((file) => {
@@ -43,6 +48,15 @@ const Directory = ({ files, handleFolderClick }) => {
       onDragLeave={preventDefault}
       onDrop={handleDrop}
     >
+      <div className="flex items-center p-2 cursor-pointer hover:bg-secondary rounded text-xs">
+        <div className="mr-2 w-[12px]" />
+        <div className="grid w-full grid-cols-4 font-semibold">
+          <span>Name</span>
+          <span>Parent</span>
+          <span>Size</span>
+          <span>Created</span>
+        </div>
+      </div>
       {files?.content?.map((file) => {
         const isFolder = file.type === "directory";
         return (
@@ -53,7 +67,7 @@ const Directory = ({ files, handleFolderClick }) => {
           >
             <FontAwesomeIcon
               icon={isFolder ? faFolder : faFile}
-              className={`mr-2 ${
+              className={`mr-2 w-[12px] ${
                 isFolder ? "text-primary-highlight" : "text-primary-foreground"
               }`}
             />

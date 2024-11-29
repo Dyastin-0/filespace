@@ -1,8 +1,30 @@
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+
+const getSize = (file) => {
+  if (file.children && file.children.length > 0) {
+    return file.children.reduce((total, child) => total + getSize(child), 0);
+  }
+
+  return file.size || 0;
+};
+
 const Folder = ({ file }) => {
+  const size = getSize(file);
+
+  const isMb = size >= 1024;
   return (
-    <div className="flex gap-1">
+    <div className="grid w-full grid-cols-4">
       <span className="font-semibold">{file.name}</span>
       <span className="text-secondary-foreground">{file.parent.name}</span>
+      <span className="text-primary-foreground">
+        {isMb ? (size / 1024).toFixed(2) : size.toFixed(2)} {isMb ? "MB" : "KB"}
+      </span>
+
+      <span className="text-primary-foreground">
+        {dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
+      </span>
     </div>
   );
 };
