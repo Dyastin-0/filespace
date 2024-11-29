@@ -8,6 +8,7 @@ import useFiles from "../hooks/useFiles";
 import useToast from "./hooks/useToast";
 import Headers from "./Headers";
 import useTabs from "../hooks/useTabs";
+import { getFileIcon } from "../helpers/icon";
 
 const Directory = ({ files }) => {
   const { api } = useAxios();
@@ -53,6 +54,7 @@ const Directory = ({ files }) => {
     >
       <Headers />
       {files?.content?.map((file) => {
+        const icon = getFileIcon(file.name);
         const isFolder = file.type === "directory";
         return (
           <div
@@ -61,7 +63,7 @@ const Directory = ({ files }) => {
             onClick={() => isFolder && addTab(file)}
           >
             <FontAwesomeIcon
-              icon={isFolder ? faFolder : faFile}
+              icon={isFolder ? faFolder : icon}
               className={`mr-2 w-[12px] ${
                 isFolder ? "text-primary-highlight" : "text-primary-foreground"
               }`}
