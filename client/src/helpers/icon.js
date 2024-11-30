@@ -24,24 +24,24 @@ export const getFileIcon = (fileName) => {
     case "bmp":
     case "webp":
     case "tiff":
-      return faImage; // Image files
+      return faImage;
     case "mp3":
     case "wav":
     case "flac":
     case "aac":
     case "ogg":
-      return faFileAudio; // Audio files
+      return faFileAudio;
     case "mp4":
     case "mkv":
     case "avi":
     case "mov":
     case "wmv":
     case "flv":
-      return faFileVideo; // Video files
+      return faFileVideo;
     case "pdf":
-      return faFilePdf; // PDF files
+      return faFilePdf;
     case "txt":
-      return faFileAlt; // Text files
+      return faFileAlt;
     case "js":
     case "jsx":
     case "ts":
@@ -64,26 +64,26 @@ export const getFileIcon = (fileName) => {
     case "yaml":
     case "yml":
     case "sql":
-      return faFileCode; // SQL files
+      return faFileCode;
     case "md":
-      return faFileAlt; // Markdown files
+      return faFileAlt;
     case "xlsx":
     case "xls":
-      return faFileExcel; // Excel files
+      return faFileExcel;
     case "docx":
     case "doc":
-      return faFileWord; // Word documents
+      return faFileWord;
     case "pptx":
     case "ppt":
-      return faFilePowerpoint; // PowerPoint files
+      return faFilePowerpoint;
     case "zip":
     case "rar":
     case "tar":
     case "gz":
-      return faFileArchive; // Archive files
+      return faFileArchive;
     case "svg":
-      return faFileImage; // SVG files
+      return faFileImage;
     default:
-      return faFile; // Default for unknown types
+      return faFile;
   }
 };
