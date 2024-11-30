@@ -21,11 +21,12 @@ const Storage = () => {
 
   return (
     <div className="flex flex-col place-self-end gap-2 w-full max-w-md mx-auto text-xs text-primary-foreground">
-      <div className="flex flex-col w-full gap-2 font-semibold">
+      <div className="flex w-full gap-1 font-semibold">
         <p className="text-start">Storage usage</p>
-        <span className="font-semibold">
-          {formatBytes(usedStorage)} / {formatBytes(MAX_STORAGE_LIMIT)}
-        </span>
+
+        <div className="text-secondary-foreground">
+          {usagePercentage.toFixed(2)}%
+        </div>
       </div>
       <div className="flex flex-col w-full bg-secondary rounded-full h-3">
         <div
@@ -35,9 +36,9 @@ const Storage = () => {
           }}
         />
       </div>
-      <div className="text-right text-secondary-foreground">
-        {usagePercentage.toFixed(2)}% used
-      </div>
+      <span className="font-semibold">
+        {formatBytes(usedStorage)} of {formatBytes(MAX_STORAGE_LIMIT)} used
+      </span>
     </div>
   );
 };
