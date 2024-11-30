@@ -10,7 +10,7 @@ const formatBytes = (bytes) => {
   return `${MB.toFixed(2)} MB`;
 };
 
-const Limit = () => {
+const Storage = () => {
   const { user } = useAuth();
   const usedStorage = user?.usedStorage || 0;
 
@@ -20,8 +20,8 @@ const Limit = () => {
   );
 
   return (
-    <div className="flex flex-col gap-2 w-full max-w-md mx-auto p-4">
-      <div className="flex justify-between items-center gap-2 text-sm font-semibold">
+    <div className="flex flex-col place-self-end gap-2 w-full max-w-md mx-auto p-4">
+      <div className="flex justify-between items-center gap-2 text-xs font-semibold">
         <span>Storage Usage</span>
         <span>
           {formatBytes(usedStorage)} / {formatBytes(MAX_STORAGE_LIMIT)}
@@ -44,4 +44,4 @@ const Limit = () => {
   );
 };
 
-export default Limit;
+export default Storage;

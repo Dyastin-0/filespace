@@ -31,7 +31,9 @@ const Directory = ({ files }) => {
       formData.append("files", file);
     });
 
-    toastInfo("Uploading...");
+    const message = newFiles.length > 1 ? "files" : "file";
+
+    toastInfo(`Uploading ${newFiles.length} ${message}...`);
 
     api
       .post("/files", formData, {
@@ -41,7 +43,7 @@ const Directory = ({ files }) => {
       })
       .then(() => {
         mutate();
-        toastInfo("Uploaded successfully");
+        toastInfo(`Uploaded ${newFiles.length} ${message}`);
       });
   };
 

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useModal } from "./useModal";
+import useModal from "./useModal";
 import ConfirmDialog from "../ConfirmDialog";
 
 const useConfirm = () => {

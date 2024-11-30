@@ -31,7 +31,7 @@ const CreateFolder = () => {
       return;
     }
 
-    toastInfo("Creating folder...");
+    toastInfo(`Creating ${folderName}...`);
 
     api
       .post("/files/folder", {
@@ -40,7 +40,7 @@ const CreateFolder = () => {
       })
       .then(() => {
         mutate();
-        toastInfo("Folder created.");
+        toastInfo(`Folder ${folderName} created`);
         setOpen(false);
       });
   };
