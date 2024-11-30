@@ -1,6 +1,7 @@
-import { faFile, faFolder } from "@fortawesome/free-solid-svg-icons";
+import { faFolder } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { displayCopy, preventDefault } from "../helpers/drop";
+import { getFileIcon } from "../helpers/icon";
 import Folder from "./Folder";
 import File from "./File";
 import useAxios from "../hooks/useAxios";
@@ -8,7 +9,6 @@ import useFiles from "../hooks/useFiles";
 import useToast from "./hooks/useToast";
 import Headers from "./Headers";
 import useTabs from "../hooks/useTabs";
-import { getFileIcon } from "../helpers/icon";
 
 const Directory = ({ files }) => {
   const { api } = useAxios();
@@ -62,7 +62,7 @@ const Directory = ({ files }) => {
           <div
             key={file.path}
             className="flex items-center p-2 cursor-pointer hover:bg-secondary rounded text-xs"
-            onClick={() => isFolder && addTab(file)}
+            onDoubleClick={() => isFolder && addTab(file)}
           >
             <FontAwesomeIcon
               icon={isFolder ? faFolder : icon}
