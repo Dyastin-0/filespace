@@ -9,7 +9,7 @@ const RootFolders = () => {
   const { updateTabsToCurrentPath } = useTabs();
 
   return (
-    <div className="flex flex-col w-ful gap-2">
+    <div className="flex flex-col w-full gap-2">
       <Button
         onClick={() => updateTabsToCurrentPath({ path: "" })}
         text="Root"

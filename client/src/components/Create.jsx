@@ -49,7 +49,7 @@ const Create = () => {
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col w-full items-center gap-2">
       <Dropdown name="Upload or create" icon={faPlusSquare} className="w-fit">
         <DropdownItem
           text="Folder"
