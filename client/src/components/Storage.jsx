@@ -20,24 +20,22 @@ const Storage = () => {
   );
 
   return (
-    <div className="flex flex-col place-self-end gap-2 w-full max-w-md mx-auto p-4">
-      <div className="flex justify-between items-center gap-2 text-xs font-semibold">
-        <span>Storage Usage</span>
-        <span>
+    <div className="flex flex-col place-self-end gap-2 w-full max-w-md mx-auto text-xs text-primary-foreground">
+      <div className="flex flex-col w-full gap-2 font-semibold">
+        <p className="text-start">Storage usage</p>
+        <span className="font-semibold">
           {formatBytes(usedStorage)} / {formatBytes(MAX_STORAGE_LIMIT)}
         </span>
       </div>
-
-      <div className="flex flex-col w-full bg-secondary rounded-full h-3 text-xs">
+      <div className="flex flex-col w-full bg-secondary rounded-full h-3">
         <div
-          className="rounded-full h-3 transition-all duration-500"
+          className="rounded-full h-3 w-[180px] transition-all duration-500"
           style={{
             background: `linear-gradient(to right, var(--highlight) ${usagePercentage}%, var(--bg-secondary) ${usagePercentage}%)`,
           }}
         />
       </div>
-
-      <div className="text-xs text-right text-secondary-foreground">
+      <div className="text-right text-secondary-foreground">
         {usagePercentage.toFixed(2)}% used
       </div>
     </div>
