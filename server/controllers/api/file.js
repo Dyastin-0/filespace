@@ -30,8 +30,6 @@ const handleUploadFile = async (req, res) => {
         },
       });
 
-      await Users.updateOne({ _id: id }, { $inc: { usedStorage: size } });
-
       await newFile.setMetadata({
         metadata: {
           owner: id,
@@ -42,6 +40,8 @@ const handleUploadFile = async (req, res) => {
     });
 
     const fileUploadResults = await Promise.all(fileUploads);
+    await Users.updateOne({ _id: id }, { $inc: { usedStorage: size } });
+
     return res.status(200).send(fileUploadResults);
   } catch (error) {
     console.error("Error uploading file:", error);
@@ -63,8 +63,6 @@ const handleFetchFiles = async (req, res) => {
           action: "read",
           expires: Date.now() + 15 * 60 * 1000,
         });
-
-        console.log(file.metadata.size);
 
         return {
           name: file.metadata.name.replace(`${id}/`, ""),

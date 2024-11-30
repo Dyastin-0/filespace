@@ -15,11 +15,10 @@ const checkStorageLimit = async (req, res, next) => {
     const usedStorage = userStorage ? userStorage.usedStorage : 0;
 
     const files = Array.isArray(_files) ? _files : [_files];
-    const totalUploadSize = files.reduce((total, file) => {
-      console.log(file.size);
-
-      return total + file.size;
-    }, 0);
+    const totalUploadSize = files.reduce(
+      (total, file) => parseInt(total) + parseInt(file.size),
+      0
+    );
 
     if (usedStorage + totalUploadSize > MAX_STORAGE_LIMIT) {
       return res

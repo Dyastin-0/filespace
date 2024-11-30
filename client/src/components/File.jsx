@@ -12,7 +12,10 @@ const File = ({ file }) => {
   const { api } = useAxios();
   const { toastInfo } = useToast();
 
-  const isMb = file.size >= 1024 * 1024;
+  const sizeKB = (file.size / 1024).toFixed(2);
+  const sizeMB = (sizeKB / 1024).toFixed(2);
+
+  const isMB = sizeMB >= 1;
 
   return (
     <div className="grid grid-cols-5 w-full items-center gap-2">
@@ -28,10 +31,7 @@ const File = ({ file }) => {
       </a>
       <span className="text-secondary-foreground">{file.parent.name}</span>
       <span className="text-primary-foreground">
-        {isMb
-          ? (file.size / 1024 / 1024).toFixed(2)
-          : (file.size / 1024).toFixed(2)}{" "}
-        {isMb ? "MB" : "KB"}
+        {isMB ? sizeMB : sizeKB} {isMB ? "MB" : "KB"}
       </span>
       <span className="text-primary-foreground">
         {dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}

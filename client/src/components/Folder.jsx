@@ -5,34 +5,27 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import useAxios from "../hooks/useAxios";
 import useToast from "./hooks/useToast";
 import useFiles from "../hooks/useFiles";
+import { getSize } from "../helpers/size";
 
 dayjs.extend(relativeTime);
-
-const getSize = (file) => {
-  if (file.children && file.children.length > 0) {
-    return file.children.reduce((total, child) => total + getSize(child), 0);
-  }
-
-  return file.size / 1024 || 0;
-};
 
 const Folder = ({ file }) => {
   const { mutate } = useFiles();
   const { api } = useAxios();
   const { toastInfo } = useToast();
 
-  const size = getSize(file);
-  const isMb = file.size >= 1024 * 1024;
+  const sizeBytes = getSize(file);
+  const sizeKB = (sizeBytes / 1024).toFixed(2);
+  const sizeMB = (sizeKB / 1024).toFixed(2);
 
-  console.log(size);
+  const isMB = sizeMB >= 1;
 
   return (
     <div className="grid grid-cols-5 w-full items-center gap-2">
       <span className="font-semibold">{file.name}</span>
       <span className="text-secondary-foreground">{file.parent.name}</span>
       <span className="text-primary-foreground">
-        {isMb ? (size / 1024 / 1024).toFixed(2) : size.toFixed(2)}{" "}
-        {isMb ? "MB" : "KB"}
+        {isMB ? sizeMB : sizeKB} {isMB ? "MB" : "KB"}
       </span>
       <span className="text-primary-foreground">
         {dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
