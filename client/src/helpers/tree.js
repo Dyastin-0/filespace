@@ -5,7 +5,7 @@ class Node {
     this.path = path;
     this.link = link;
     this.createdAt = createdAt;
-    this.size = size / 1024;
+    this.size = size;
     this.children = type === "directory" ? [] : null;
     this.parent = parent;
   }

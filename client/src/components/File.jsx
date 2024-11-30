@@ -12,7 +12,7 @@ const File = ({ file }) => {
   const { api } = useAxios();
   const { toastInfo } = useToast();
 
-  const isMb = file.size >= 1024;
+  const isMb = file.size >= 1024 * 1024;
 
   return (
     <div className="grid grid-cols-5 w-full items-center gap-2">
@@ -28,7 +28,9 @@ const File = ({ file }) => {
       </a>
       <span className="text-secondary-foreground">{file.parent.name}</span>
       <span className="text-primary-foreground">
-        {isMb ? (file.size / 1024).toFixed(2) : file.size.toFixed(2)}{" "}
+        {isMb
+          ? (file.size / 1024 / 1024).toFixed(2)
+          : (file.size / 1024).toFixed(2)}{" "}
         {isMb ? "MB" : "KB"}
       </span>
       <span className="text-primary-foreground">

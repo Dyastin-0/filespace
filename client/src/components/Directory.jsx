@@ -20,7 +20,7 @@ const Directory = ({ files }) => {
     preventDefault(e);
     const newFiles = Array.from(e.dataTransfer.files);
 
-    if (!newFiles.length > 5) {
+    if (newFiles.length > 25) {
       toastInfo("You can only upload up to 5 files at a time");
       return;
     }

@@ -46,6 +46,10 @@ const userSchema = new Schema({
   googleId: {
     type: String,
   },
+  usedStorage: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const UserModel = mongoose.model("User", userSchema);

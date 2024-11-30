@@ -13,7 +13,7 @@ const getSize = (file) => {
     return file.children.reduce((total, child) => total + getSize(child), 0);
   }
 
-  return file.size || 0;
+  return file.size / 1024 || 0;
 };
 
 const Folder = ({ file }) => {
@@ -22,14 +22,17 @@ const Folder = ({ file }) => {
   const { toastInfo } = useToast();
 
   const size = getSize(file);
-  const isMb = size >= 1024;
+  const isMb = file.size >= 1024 * 1024;
+
+  console.log(size);
 
   return (
     <div className="grid grid-cols-5 w-full items-center gap-2">
       <span className="font-semibold">{file.name}</span>
       <span className="text-secondary-foreground">{file.parent.name}</span>
       <span className="text-primary-foreground">
-        {isMb ? (size / 1024).toFixed(2) : size.toFixed(2)} {isMb ? "MB" : "KB"}
+        {isMb ? (size / 1024 / 1024).toFixed(2) : size.toFixed(2)}{" "}
+        {isMb ? "MB" : "KB"}
       </span>
       <span className="text-primary-foreground">
         {dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}

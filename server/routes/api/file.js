@@ -9,11 +9,12 @@ import {
 } from "../../controllers/api/file.js";
 
 import upload from "../../middlewares/multer.js";
+import checkStorageLimit from "../../middlewares/storage.js";
 const router = express.Router();
 
 router
   .route("/")
-  .post(upload.array("files", 5), handleUploadFile)
+  .post(upload.array("files", 25), checkStorageLimit, handleUploadFile)
   .get(handleFetchFiles)
   .delete(handleDeleteFile);
 

@@ -1,3 +1,4 @@
+import Users from "../../models/user.js";
 import { Storage } from "@google-cloud/storage";
 
 const storage = new Storage({
@@ -8,11 +9,8 @@ const bucket = storage.bucket("filespace-bucket");
 
 const handleUploadFile = async (req, res) => {
   const { id } = req.user;
-  const { files: _files } = req;
+  const { files: _files, size } = req;
   const { path } = req.body;
-
-  if (!_files || _files.length === 0)
-    return res.status(400).send("No file/s to upload.");
 
   try {
     const files = Array.isArray(_files) ? _files : [_files];
@@ -32,20 +30,21 @@ const handleUploadFile = async (req, res) => {
         },
       });
 
+      await Users.updateOne({ _id: id }, { $inc: { usedStorage: size } });
+
       await newFile.setMetadata({
         metadata: {
           owner: id,
         },
       });
 
-      return newFile;
+      return { fileName, size };
     });
 
     const fileUploadResults = await Promise.all(fileUploads);
-
     return res.status(200).send(fileUploadResults);
   } catch (error) {
-    console.error(error);
+    console.error("Error uploading file:", error);
     return res.status(500).send("Internal Server Error");
   }
 };
@@ -65,16 +64,17 @@ const handleFetchFiles = async (req, res) => {
           expires: Date.now() + 15 * 60 * 1000,
         });
 
+        console.log(file.metadata.size);
+
         return {
           name: file.metadata.name.replace(`${id}/`, ""),
           link: url,
-          owner: file.metadata.owner,
+          owner: file.metadata.metadata.owner,
           size: file.metadata.size,
           updated: file.metadata.updated,
           contentType: file.metadata.contentType,
           createdAt: file.metadata.timeCreated,
           type: file.metadata.contentType.split("/").pop(),
-          metadata: file.metadata.metadata,
         };
       })
     );
@@ -127,10 +127,18 @@ const handleDeleteFile = async (req, res) => {
   try {
     const file = bucket.file(`${id}/${path}`);
 
+    const [metadata] = await file.getMetadata();
+    const fileSize = parseInt(metadata.size, 10);
+
     await file.delete();
+    await Users.updateOne({ _id: id }, { $inc: { usedStorage: -fileSize } });
 
     return res.status(200).send(`File deleted successfully: ${path}`);
   } catch (error) {
+    if (error.code === 404) {
+      return res.status(404).send("File not found.");
+    }
+
     console.error("Error deleting file:", error);
     return res.status(500).send("Internal Server Error");
   }
@@ -149,11 +157,14 @@ const handleDeleteFolder = async (req, res) => {
       prefix: `${id}/${path}/`,
     });
 
-    await Promise.all(
-      files.map(async (file) => {
-        await file.delete();
-      })
+    const totalSize = files.reduce(
+      (sum, file) => sum + parseInt(file.metadata.size, 10),
+      0
     );
+
+    await Promise.all(files.map(async (file) => await file.delete()));
+
+    await Users.updateOne({ _id: id }, { $inc: { usedStorage: -totalSize } });
 
     return res.status(200).send(`Folder deleted successfully: ${path}`);
   } catch (error) {
