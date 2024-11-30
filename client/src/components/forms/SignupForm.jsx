@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import useToast from "../hooks/useToast";
 import Input from "../ui/Input";
 import ProgressBar from "../ui/ProgressBar";
