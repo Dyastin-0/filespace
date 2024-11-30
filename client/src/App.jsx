@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./components/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const Signin = lazy(() => import("./pages/Signin"));
 const Signup = lazy(() => import("./pages/Signup"));
@@ -22,7 +23,9 @@ const App = () => {
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/auth/verification" element={<Verification />} />
           <Route path="/auth/verify" element={<Verify />} />
-          <Route path="/home" element={<Home />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/home" element={<Home />} />
+          </Route>
         </Routes>
       </Suspense>
     </>
