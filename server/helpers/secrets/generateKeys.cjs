@@ -24,7 +24,7 @@ const generateKeys = async () => {
       `REFRESH_TOKEN_SECRET=${refreshKey}`,
       `EMAIL_TOKEN_SECRET=${emailKey}`,
       `BASE_CLIENT_URL=https://filespace.dyastin.tech`,
-      "PORT=4001",
+      "PORT=3004",
       "VERSION=v1",
       "NODE_ENV=production",
       "GCLOUD_PROJECT_ID=filespace-442811",
