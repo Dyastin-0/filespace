@@ -49,7 +49,7 @@ const Create = () => {
   };
 
   return (
-    <div className="flex flex-col w-full items-center gap-2">
+    <div>
       <Dropdown name="Upload or create" icon={faPlusSquare} className="w-fit">
         <DropdownItem
           text="Folder"
@@ -71,7 +71,6 @@ const Create = () => {
         style={{ display: "none" }}
         onChange={handleFileChange}
       />
-      <Separator />
     </div>
   );
 };

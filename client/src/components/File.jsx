@@ -29,6 +29,7 @@ const File = ({ file }) => {
 
   const handleDelete = () => {
     confirm({
+      title: "Delete File",
       message: `Are you sure you want to delete ${file.name}?`,
       onConfirm: () => {
         toastInfo(`Deleting ${file.name}...`);
@@ -68,7 +69,7 @@ const File = ({ file }) => {
     <div
       tabIndex={0}
       key={file.path}
-      className="grid grid-cols-4 gap-2 p-2 text-xs rounded cursor-pointer focus:bg-primary hover:bg-primary
+      className="grid grid-cols-4 gap-2 p-2 text-xs rounded cursor-pointer focus:bg-secondary hover:bg-secondary
       transition-all duration-300"
       onDoubleClick={() => isFolder && addTab(file)}
       onContextMenu={onContextMenu}

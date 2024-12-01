@@ -50,7 +50,7 @@ const useContextMenu = (menuOptions = []) => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
         >
-          <ul className="text-xs text-primary-highlight-foreground font-semibold">
+          <ul className="text-xs font-semibold">
             {menuOptions.map((option, index) => (
               <li
                 key={index}

@@ -6,9 +6,10 @@ const useConfirm = () => {
   const { setModal, setOpen } = useModal();
 
   const confirm = useCallback(
-    ({ message, onConfirm }) => {
+    ({ title, message, onConfirm }) => {
       setModal(
         <ConfirmDialog
+          title={title}
           message={message}
           onConfirm={() => {
             onConfirm();

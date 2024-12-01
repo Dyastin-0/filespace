@@ -51,7 +51,7 @@ const Navbar = ({ toggleSideNavbar }) => {
 
   return (
     <motion.div
-      className={`sticky flex justify-between w-full p-4 gap-3 shadow-sm z-40 bg-primary
+      className={`sticky flex justify-between w-full p-4 gap-3 z-40 bg-primary
       ${lastScrollY > 50 ? "border border-secondary-accent" : ""}`}
       initial={{ y: 0 }}
       animate={isScrollingDown ? { y: -100 } : { y: 0 }}

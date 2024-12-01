@@ -48,7 +48,7 @@ const CreateFolder = () => {
   return (
     <div
       className="flex flex-col w-[400px] max-w-full p-4 gap-4 rounded-md bg-primary
-			text-xs text-primary-foreground"
+			text-xs text-primary-foreground border border-secondary-accent"
     >
       <div className="flex justify-between items-end">
         <h2 className="font-semibold text-sm">Create a folder</h2>
