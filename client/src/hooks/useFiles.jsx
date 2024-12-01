@@ -8,11 +8,12 @@ const FilesContext = createContext();
 
 export const FilesProvider = ({ children }) => {
   const { api, isAxiosReady } = useAxios();
-  const { user } = useAuth();
+  const { user, token } = useAuth();
 
   const { data: files, mutate } = useSWR(
-    isAxiosReady && user ? `${user._id}/files` : null,
+    isAxiosReady && user && token ? `${user._id}/files` : null,
     async () => {
+      console.log(token, user, isAxiosReady);
       const response = await api.get("/files");
       return generateFileTree(response.data);
     },

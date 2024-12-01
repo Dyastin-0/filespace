@@ -45,7 +45,7 @@ const Directory = ({ files }) => {
 
   return (
     <div
-      className="flex flex-col w-full h-full gap-2 p-4 rounded-md"
+      className="flex flex-col w-full h-full bg-secondary gap-2 p-4 rounded-md"
       onDragOver={displayCopy}
       onDragLeave={preventDefault}
       onDrop={handleDrop}

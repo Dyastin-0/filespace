@@ -23,7 +23,7 @@ class Node {
 }
 
 const generateFileTree = (files) => {
-  const root = new Node("directory", "root", "", null, 0);
+  const root = new Node("directory", "Root", "", null, 0);
 
   files.forEach((file) => {
     const filePath = file.name;

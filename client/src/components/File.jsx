@@ -69,7 +69,7 @@ const File = ({ file }) => {
     <div
       tabIndex={0}
       key={file.path}
-      className="grid grid-cols-4 gap-2 p-2 text-xs rounded cursor-pointer focus:bg-secondary hover:bg-secondary
+      className="grid grid-cols-4 gap-2 p-2 text-xs rounded cursor-pointer focus:bg-primary hover:bg-primary
       transition-all duration-300"
       onDoubleClick={() => isFolder && addTab(file)}
       onContextMenu={onContextMenu}
@@ -81,18 +81,19 @@ const File = ({ file }) => {
           href={file.link}
           target="_blank"
           rel="noreferrer"
-          className="font-semibold transition-all duration-300
-          text-ellipsis line-clamp-1 block w-full
-          hover:text-primary-highlight"
+          className="font-semibold transition-all duration-300 w-full
+          hover:text-primary-highlight block truncate"
         >
           {file.name}
         </a>
       </div>
-      <span className="text-secondary-foreground">{file.parent.name}</span>
-      <span className="text-primary-foreground">
+      <span className="block truncate text-secondary-foreground">
+        {file.parent.name}
+      </span>
+      <span className="block truncate text-primary-foreground">
         {isMB ? sizeMB : sizeKB} {isMB ? "MB" : "KB"}
       </span>
-      <span className="text-primary-foreground">
+      <span className="block truncate text-primary-foreground">
         {dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
       </span>
       <ContextMenu />

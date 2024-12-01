@@ -44,7 +44,7 @@ const useContextMenu = (menuOptions = []) => {
       {contextMenu.visible && (
         <motion.div
           ref={menuRef}
-          className="absolute z-10 transition-all duration-300 rounded-md bg-secondary text-primary-foreground p-2 border border-secondary-accent"
+          className="absolute z-10 transition-all duration-300 rounded-md bg-primary text-primary-foreground p-2 border border-secondary-accent"
           style={{ top: contextMenu.y, left: contextMenu.x }}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}

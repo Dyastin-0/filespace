@@ -71,20 +71,22 @@ const Folder = ({ file }) => {
     <div
       tabIndex={0}
       key={file.path}
-      className="grid grid-cols-4 p-2 text-xs rounded cursor-pointer focus:bg-secondary hover:bg-secondary
+      className="grid grid-cols-4 p-2 gap-2 text-xs rounded cursor-pointer focus:bg-primary hover:bg-primary
         transition-all duration-300"
       onDoubleClick={() => isFolder && addTab(file)}
       onContextMenu={onContextMenu}
     >
       <div className="flex gap-2">
         <FontAwesomeIcon icon={faFolder} className="text-primary-highlight" />
-        <span className="font-semibold">{file.name}</span>
+        <span className="block truncate font-semibold">{file.name}</span>
       </div>
-      <span className="text-secondary-foreground">{file.parent.name}</span>
-      <span className="text-primary-foreground">
+      <span className="block truncate text-secondary-foreground">
+        {file.parent.name}
+      </span>
+      <span className="block truncate text-primary-foreground">
         {isMB ? sizeMB : sizeKB} {isMB ? "MB" : "KB"}
       </span>
-      <span className="text-primary-foreground">
+      <span className="block truncate text-primary-foreground">
         {dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
       </span>
       <ContextMenu />

@@ -18,11 +18,13 @@ import Link from "./ui/Link";
 import { Link as DomLink } from "react-router-dom";
 import Filespace from "./Filespace";
 import useViewport from "../hooks/useViewport";
+import useFiles from "../hooks/useFiles";
 
 const Navbar = ({ toggleSideNavbar }) => {
   const navigate = useNavigate();
   const { toggleTheme, icon } = useThemeToggle();
   const { setToken, token, setUser, user } = useAuth();
+  const { mutate } = useFiles();
   const { viewWidth } = useViewport();
   const [isScrollingDown, setIsScrollingDown] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -32,6 +34,7 @@ const Navbar = ({ toggleSideNavbar }) => {
       await axios.post("/auth/sign-out");
       setToken(null);
       setUser(null);
+      mutate(null, false);
       navigate("/");
     } catch (error) {
       console.error(error);

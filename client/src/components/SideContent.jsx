@@ -5,7 +5,7 @@ import Separator from "./ui/Separator";
 
 const SideContent = () => {
   return (
-    <div className="flex flex-col min-w-fit h-full bg-primary rounded-md gap-2 p-4">
+    <div className="flex flex-col min-w-[220px] h-full bg-primary rounded-md gap-2 p-4">
       <Create />
       <Separator />
       <RootFolders />
