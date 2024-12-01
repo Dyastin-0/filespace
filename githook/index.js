@@ -21,19 +21,19 @@ const updateAndRestartServices = (commits) => {
   if (hasChangesInDirectory(commits, "githook/")) {
     console.log("githook/");
     commands.push("cd githook && npm install && cd ..");
-    commands.push("sudo systemctl restart filmpingithook.service");
+    commands.push("sudo systemctl restart filespacegithook.service");
   }
 
   if (hasChangesInDirectory(commits, "client/")) {
     console.log("client/");
     commands.push("cd client && npm install && npm run build && cd ..");
-    commands.push("sudo systemctl restart filmpinclient.service");
+    commands.push("sudo systemctl restart filespaceclient.service");
   }
 
   if (hasChangesInDirectory(commits, "server/")) {
     console.log("server/");
     commands.push("cd server && npm install && npm run init && cd ..");
-    commands.push("sudo systemctl restart filmpin.service");
+    commands.push("sudo systemctl restart filespace.service");
   }
 
   if (commands.length > 1) {
