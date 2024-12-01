@@ -1,20 +1,16 @@
-import { faFolder } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { displayCopy, preventDefault } from "../helpers/drop";
-import { getFileIcon } from "../helpers/icon";
 import Folder from "./Folder";
 import File from "./File";
 import useAxios from "../hooks/useAxios";
 import useFiles from "../hooks/useFiles";
 import useToast from "./hooks/useToast";
 import Headers from "./Headers";
-import useTabs from "../hooks/useTabs";
+import React from "react";
 
 const Directory = ({ files }) => {
   const { api } = useAxios();
   const { mutate } = useFiles();
   const { toastInfo } = useToast();
-  const { addTab } = useTabs();
 
   const handleDrop = (e) => {
     preventDefault(e);
@@ -49,29 +45,18 @@ const Directory = ({ files }) => {
 
   return (
     <div
-      className="flex flex-col w-full h-full border-secondary rounded p-4"
+      className="flex flex-col w-full h-full gap-2 p-4 rounded border-secondary bg-secondary"
       onDragOver={displayCopy}
       onDragLeave={preventDefault}
       onDrop={handleDrop}
     >
       <Headers />
       {files?.content?.map((file) => {
-        const icon = getFileIcon(file.name);
         const isFolder = file.type === "directory";
-        return (
-          <div
-            key={file.path}
-            className="flex items-center p-2 cursor-pointer hover:bg-secondary rounded text-xs"
-            onDoubleClick={() => isFolder && addTab(file)}
-          >
-            <FontAwesomeIcon
-              icon={isFolder ? faFolder : icon}
-              className={`mr-2 w-[12px] ${
-                isFolder ? "text-primary-highlight" : "text-primary-foreground"
-              }`}
-            />
-            {isFolder ? <Folder file={file} /> : <File file={file} />}
-          </div>
+        return isFolder ? (
+          <Folder key={file.path} file={file} />
+        ) : (
+          <File key={file.path} file={file} />
         );
       })}
     </div>

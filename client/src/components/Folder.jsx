@@ -1,12 +1,20 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { Dropdown, DropdownItem } from "./ui/Dropdown";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCopy,
+  faFolder,
+  faFolderMinus,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { getSize } from "../helpers/size";
 import useAxios from "../hooks/useAxios";
 import useToast from "./hooks/useToast";
 import useFiles from "../hooks/useFiles";
 import useConfirm from "./hooks/useConfirm";
+import useContextMenu from "./hooks/useContextMenu";
+import { getFileIcon } from "../helpers/icon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useTabs from "../hooks/useTabs";
 
 dayjs.extend(relativeTime);
 
@@ -15,6 +23,7 @@ const Folder = ({ file }) => {
   const { mutate } = useFiles();
   const { api } = useAxios();
   const { toastInfo } = useToast();
+  const { addTab } = useTabs();
 
   const sizeBytes = getSize(file);
   const sizeKB = (sizeBytes / 1024).toFixed(2);
@@ -35,9 +44,41 @@ const Folder = ({ file }) => {
     });
   };
 
+  const menuOptions = [
+    {
+      label: "Delete",
+      icon: faTrash,
+      onClick: handleDelete,
+    },
+    {
+      label: "Move to",
+      icon: faFolderMinus,
+      onClick: () => console.log("Option 2 clicked"),
+    },
+    {
+      label: "Copy",
+      icon: faCopy,
+      onClick: () => console.log("Option 3 clicked"),
+    },
+  ];
+
+  const { onContextMenu, ContextMenu } = useContextMenu(menuOptions);
+
+  const isFolder = file.type === "directory";
+
   return (
-    <div className="grid grid-cols-5 w-full items-center gap-2">
-      <span className="font-semibold">{file.name}</span>
+    <div
+      tabIndex={0}
+      key={file.path}
+      className="grid grid-cols-4 p-2 text-xs rounded cursor-pointer focus:bg-primary hover:bg-primary
+        transition-all duration-300"
+      onDoubleClick={() => isFolder && addTab(file)}
+      onContextMenu={onContextMenu}
+    >
+      <div className="flex gap-2">
+        <FontAwesomeIcon icon={faFolder} className="text-primary-highlight" />
+        <span className="font-semibold">{file.name}</span>
+      </div>
       <span className="text-secondary-foreground">{file.parent.name}</span>
       <span className="text-primary-foreground">
         {isMB ? sizeMB : sizeKB} {isMB ? "MB" : "KB"}
@@ -45,9 +86,7 @@ const Folder = ({ file }) => {
       <span className="text-primary-foreground">
         {dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
       </span>
-      <Dropdown icon={faEllipsisV} className="place-self-end">
-        <DropdownItem text="Delete" onClick={handleDelete} />
-      </Dropdown>
+      <ContextMenu />
     </div>
   );
 };
