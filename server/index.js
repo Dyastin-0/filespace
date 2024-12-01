@@ -9,8 +9,9 @@ import mongoose from "mongoose";
 import authRoute from "./routes/auth.js";
 import fileRoute from "./routes/api/file.js";
 
-import dotenv from "dotenv";
 import verifyJsonWebToken from "./middlewares/verifyJsonWebToken.js";
+import dotenv from "dotenv";
+import session from "express-session";
 dotenv.config();
 
 const version = process.env.VERSION;
@@ -28,6 +29,14 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(
+  session({
+    secret: process.env.GOOGLE_CLIENT_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 app.use(`/api/${version}/auth`, authRoute);
 

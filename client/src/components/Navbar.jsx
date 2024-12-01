@@ -51,7 +51,7 @@ const Navbar = ({ toggleSideNavbar }) => {
 
   return (
     <motion.div
-      className={`sticky flex justify-between w-full p-3 gap-3 shadow-sm z-40 bg-primary
+      className={`sticky flex justify-between w-full p-4 gap-3 shadow-sm z-40 bg-primary
       ${lastScrollY > 50 ? "border border-secondary-accent" : ""}`}
       initial={{ y: 0 }}
       animate={isScrollingDown ? { y: -100 } : { y: 0 }}
@@ -94,16 +94,17 @@ const Navbar = ({ toggleSideNavbar }) => {
         {token && (
           <Dropdown
             variant="default_rounded"
+            p={1}
             name={
               user.profileImageURL ? (
                 <img
                   loading="lazy"
                   src={user.profileImageURL}
-                  className="overflow-hidden max-w-[14px] max-h-[14px] rounded-full"
+                  className="overflow-hidden max-w-[30px] max-h-[30px] rounded-full"
                 />
               ) : (
                 <div
-                  className="flex justify-center items-center w-[14px] h-[14px] rounded-full
+                  className="flex justify-center items-center w-[30px] h-[30px] rounded-full
                   font-semibold text-primary-highlight text-xs"
                 >
                   <p className="text-center">{user.username[0]}</p>

@@ -13,6 +13,8 @@ const generateKeys = async () => {
     const dbUrl = await getSecret("MONGODB_URI");
     const serverEmail = await getSecret("SERVER_EMAIL");
     const serverEmailPassword = await getSecret("SERVER_EMAIL_PASSWORD");
+    const googleClientId = await getSecret("GOOGLE_CLIENT_ID");
+    const googleClientSecret = await getSecret("GOOGLE_CLIENT_SECRET");
 
     const newVariables = [
       `MONGODB_URL=${dbUrl}`,
@@ -24,8 +26,11 @@ const generateKeys = async () => {
       `BASE_CLIENT_URL=https://filespace.dyastin.tech`,
       "PORT=4001",
       "VERSION=v1",
+      "NODE_ENV=development",
       "GCLOUD_PROJECT_ID=filespace-442811",
       "GOOGLE_APPLICATION_CREDENTIALS=./secretsaccesor.json",
+      `GOOGLE_CLIENT_ID=${googleClientId}`,
+      `GOOGLE_CLIENT_SECRET=${googleClientSecret}`,
     ];
 
     const fileContent = fs.readFileSync(envFilePath, { encoding: "utf8" });

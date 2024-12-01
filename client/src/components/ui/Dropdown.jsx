@@ -4,7 +4,14 @@ import { motion } from "framer-motion";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const Dropdown = ({ name, icon, children, className, variant }) => {
+export const Dropdown = ({
+  name,
+  icon,
+  children,
+  className,
+  variant,
+  p = false,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -31,6 +38,7 @@ export const Dropdown = ({ name, icon, children, className, variant }) => {
         text={name}
         onClick={toggle}
         onBlur={handleBlur}
+        className={clsx(p && "p-0")}
       />
       <motion.div
         initial={{ scaleY: 0, opacity: 0, y: -50 }}
