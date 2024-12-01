@@ -26,7 +26,7 @@ const generateKeys = async () => {
       `BASE_CLIENT_URL=https://filespace.dyastin.tech`,
       "PORT=4001",
       "VERSION=v1",
-      "NODE_ENV=development",
+      "NODE_ENV=production",
       "GCLOUD_PROJECT_ID=filespace-442811",
       "GOOGLE_APPLICATION_CREDENTIALS=./secretsaccesor.json",
       `GOOGLE_CLIENT_ID=${googleClientId}`,
