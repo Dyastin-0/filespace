@@ -38,7 +38,7 @@ export const Dropdown = ({
         text={name}
         onClick={toggle}
         onBlur={handleBlur}
-        className={clsx(p && "p-0")}
+        className={clsx(p && "p-[0rem]")}
       />
       <motion.div
         initial={{ scaleY: 0, opacity: 0, y: -50 }}
