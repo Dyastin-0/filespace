@@ -14,7 +14,7 @@ export const TabProvider = ({ children }) => {
 
     // If no tabs are set, initialize with the root
     if (tabs.length === 0) {
-      const rootTab = { name: "Root", path: "", content: files.children };
+      const rootTab = { name: "Your files", path: "", content: files.children };
       setTabs([rootTab]);
       setCurrentTab(rootTab);
     } else {
@@ -49,7 +49,7 @@ export const TabProvider = ({ children }) => {
   }, [files]);
 
   const addTab = (folderNode) => {
-    const rootTab = { name: "Root", path: "", content: files.children };
+    const rootTab = { name: "Your files", path: "", content: files.children };
 
     const pathParts = folderNode.path.split("/").filter(Boolean);
     let currentContent = files.children;
@@ -85,7 +85,7 @@ export const TabProvider = ({ children }) => {
   };
 
   const switchTab = (targetTab) => {
-    const rootTab = { name: "Root", path: "", content: files.children };
+    const rootTab = { name: "Your files", path: "", content: files.children };
     const pathParts = targetTab.path.split("/").filter(Boolean);
     let currentContent = files.children;
     const newTabs = [rootTab];

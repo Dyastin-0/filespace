@@ -6,12 +6,7 @@ const ConfirmDialog = ({ title, message, onConfirm, onCancel }) => {
     <div className="flex flex-col w-[350px] max-w-[90%] border border-secondary-accent h-fit bg-primary rounded-md p-4 gap-4">
       <div className="flex justify-between items-end text-sm">
         <h1 className="font-bold">{title}</h1>
-        <Button
-          variant="default_rounded"
-          icon={faX}
-          onClick={onCancel}
-          className="bg-transparent"
-        />
+        <Button icon={faX} onClick={onCancel} className="bg-transparent" />
       </div>
       <p className="text-xs text-primary-foreground break-words">{message}</p>
       <div className="flex w-full justify-end gap-2">

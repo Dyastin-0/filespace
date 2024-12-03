@@ -12,13 +12,15 @@ import useToast from "./hooks/useToast";
 import useFiles from "../hooks/useFiles";
 import useConfirm from "./hooks/useConfirm";
 import useContextMenu from "./hooks/useContextMenu";
-import { getFileIcon } from "../helpers/icon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useTabs from "../hooks/useTabs";
+import MoveFile from "./modals/MoveFile";
+import useModal from "./hooks/useModal";
 
 dayjs.extend(relativeTime);
 
 const Folder = ({ file }) => {
+  const { setModal, setOpen } = useModal();
   const confirm = useConfirm();
   const { mutate } = useFiles();
   const { api } = useAxios();
@@ -45,6 +47,11 @@ const Folder = ({ file }) => {
     });
   };
 
+  const handleMove = () => {
+    setModal(<MoveFile SelectedFile={file} />);
+    setOpen(true);
+  };
+
   const menuOptions = [
     {
       label: "Delete",
@@ -54,7 +61,7 @@ const Folder = ({ file }) => {
     {
       label: "Move to",
       icon: faFolderMinus,
-      onClick: () => console.log("Option 2 clicked"),
+      onClick: handleMove,
     },
     {
       label: "Copy",
@@ -72,7 +79,7 @@ const Folder = ({ file }) => {
       tabIndex={0}
       key={file.path}
       className="grid grid-cols-4 p-2 gap-2 text-xs rounded cursor-pointer focus:bg-primary hover:bg-primary
-        transition-all duration-300"
+      transition-all duration-300"
       onDoubleClick={() => isFolder && addTab(file)}
       onContextMenu={onContextMenu}
     >

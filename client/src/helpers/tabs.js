@@ -17,7 +17,7 @@ export const getUpdatedDirectory = (currentPath, files) => {
 
 export const setCurrentDirectory = (prevTabs, currentTabPath, files) => {
   if (prevTabs.length === 0) {
-    return [{ name: "Root", path: "", content: files.children }];
+    return [{ name: "Your files", path: "", content: files.children }];
   }
 
   return prevTabs.map((tab) => {

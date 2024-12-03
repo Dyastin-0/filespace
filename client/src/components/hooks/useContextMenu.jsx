@@ -13,6 +13,7 @@ const useContextMenu = (menuOptions = []) => {
 
   const onContextMenu = (e) => {
     e.preventDefault();
+    e.currentTarget.focus();
     if (e.button === 2) {
       setContextMenu({
         visible: true,
@@ -54,7 +55,7 @@ const useContextMenu = (menuOptions = []) => {
             {menuOptions.map((option, index) => (
               <li
                 key={index}
-                className="flex p-2 gap-1 justify-end items-center cursor-pointer transition-all rounded-md duration-300 hover:bg-primary"
+                className="flex p-2 gap-1 justify-end items-center cursor-pointer transition-all rounded-md duration-300 hover:bg-secondary"
                 onClick={() => {
                   option.onClick();
                   closeContextMenu();

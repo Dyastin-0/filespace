@@ -1,5 +1,5 @@
 import useAuth from "../hooks/useAuth";
-import { useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 const MAX_STORAGE_LIMIT = 1 * 1024 * 1024 * 1024;
 
@@ -10,13 +10,33 @@ const formatBytes = (bytes) => {
   return `${MB.toFixed(2)} MB`;
 };
 
+const easeOutCubic = (t) => --t * t * t + 1;
+
 const Storage = () => {
   const { user } = useAuth();
   const usedStorage = user?.usedStorage || 0;
+  const [displayedStorage, setDisplayedStorage] = useState(0);
+
+  useEffect(() => {
+    let start = null;
+    const duration = 2000;
+
+    const step = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = timestamp - start;
+      const increment = easeOutCubic(Math.min(progress / duration, 1));
+      setDisplayedStorage(usedStorage * increment);
+      if (progress < duration) {
+        window.requestAnimationFrame(step);
+      }
+    };
+
+    window.requestAnimationFrame(step);
+  }, [usedStorage]);
 
   const usagePercentage = useMemo(
-    () => Math.min((usedStorage / MAX_STORAGE_LIMIT) * 100, 100),
-    [usedStorage]
+    () => Math.min((displayedStorage / MAX_STORAGE_LIMIT) * 100, 100),
+    [displayedStorage]
   );
 
   return (
@@ -32,14 +52,14 @@ const Storage = () => {
       </div>
       <div className="flex flex-col w-full bg-secondary rounded-full h-3">
         <div
-          className="rounded-full h-3 w-full transition-all duration-500"
+          className="rounded-full h-3 w-full transition-all duration-300"
           style={{
             background: `linear-gradient(to right, var(--highlight) ${usagePercentage}%, var(--bg-primary) ${usagePercentage}%)`,
           }}
         />
       </div>
       <span className="font-semibold">
-        {formatBytes(usedStorage)} of {formatBytes(MAX_STORAGE_LIMIT)} used
+        {formatBytes(displayedStorage)} of {formatBytes(MAX_STORAGE_LIMIT)} used
       </span>
     </div>
   );

@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { faX } from "@fortawesome/free-solid-svg-icons";
 import useModal from "../hooks/useModal";
 import Button from "../ui/Button";
 import useAxios from "../../hooks/useAxios";
@@ -7,6 +6,7 @@ import useTabs from "../../hooks/useTabs";
 import useFiles from "../../hooks/useFiles";
 import useToast from "../hooks/useToast";
 import NormalInput from "../ui/NormalInput";
+import GenericModal from "./GenericModal";
 
 const CreateFolder = () => {
   const { setOpen } = useModal();
@@ -46,19 +46,12 @@ const CreateFolder = () => {
   };
 
   return (
-    <div
-      className="flex flex-col w-[400px] max-w-full p-4 gap-4 rounded-md bg-primary
-			text-xs text-primary-foreground border border-secondary-accent"
-    >
-      <div className="flex justify-between items-end">
-        <h2 className="font-semibold text-sm">Create a folder</h2>
-        <Button icon={faX} onClick={() => setOpen(false)} variant="ghost" />
-      </div>
+    <GenericModal title="Create folder">
       <form onSubmit={handleCreate} className="flex flex-col items-end gap-4">
         <NormalInput ref={inputRef} placeholder="Folder name" />
         <Button type="submit" text="Create" className="w-fit" />
       </form>
-    </div>
+    </GenericModal>
   );
 };
 

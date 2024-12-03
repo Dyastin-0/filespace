@@ -13,10 +13,14 @@ import {
   faFolderMinus,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import useModal from "./hooks/useModal";
+import MoveFile from "./modals/MoveFile";
+
 dayjs.extend(relativeTime);
 
 const File = ({ file }) => {
   const confirm = useConfirm();
+  const { setModal, setOpen } = useModal();
   const { mutate } = useFiles();
   const { api } = useAxios();
   const { toastInfo } = useToast();
@@ -30,7 +34,7 @@ const File = ({ file }) => {
   const handleDelete = () => {
     confirm({
       title: "Delete File",
-      message: `Are you sure you want to delete ${file.name}?`,
+      message: `Are you sure you want to delete ${file.name} file?`,
       onConfirm: () => {
         toastInfo(`Deleting ${file.name}...`);
         api.delete("/files", { data: { path: file.path } }).then(() => {
@@ -39,6 +43,11 @@ const File = ({ file }) => {
         });
       },
     });
+  };
+
+  const handleMove = () => {
+    setModal(<MoveFile SelectedFile={file} />);
+    setOpen(true);
   };
 
   const menuOptions = [
@@ -50,7 +59,7 @@ const File = ({ file }) => {
     {
       label: "Move to",
       icon: faFolderMinus,
-      onClick: () => console.log("Option 2 clicked"),
+      onClick: handleMove,
     },
     {
       label: "Copy",
@@ -69,7 +78,7 @@ const File = ({ file }) => {
     <div
       tabIndex={0}
       key={file.path}
-      className="grid grid-cols-4 gap-2 p-2 text-xs rounded cursor-pointer focus:bg-primary hover:bg-primary
+      className="grid grid-cols-4 p-2 gap-2 text-xs rounded cursor-pointer focus:bg-primary hover:bg-primary
       transition-all duration-300"
       onDoubleClick={() => isFolder && addTab(file)}
       onContextMenu={onContextMenu}
