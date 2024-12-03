@@ -15,6 +15,7 @@ const MoveFile = ({ SelectedFile }) => {
   const { toastInfo } = useToast();
   const { currentTab } = useTabs();
 
+  console.log(SelectedFile.type);
   const handleMove = () => {
     confirm({
       title: SelectedFile.type === "directory" ? "Move Folder" : "Move File",
@@ -23,8 +24,10 @@ const MoveFile = ({ SelectedFile }) => {
         toastInfo(`Moving ${SelectedFile.name}...`);
         api
           .put("/files", {
-            currentPath: SelectedFile.path,
-            newPath: currentTab.path,
+            file: SelectedFile.name,
+            filePath: `${SelectedFile.path}`,
+            path: `${currentTab.path}`,
+            type: SelectedFile.type,
           })
           .then(() => {
             mutate();

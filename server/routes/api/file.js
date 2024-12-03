@@ -6,6 +6,7 @@ import {
   handleDeleteFolder,
   handleFetchFiles,
   handleUploadFile,
+  handleMoveFile,
 } from "../../controllers/api/file.js";
 
 import upload from "../../middlewares/multer.js";
@@ -16,6 +17,7 @@ router
   .route("/")
   .post(upload.array("files", 25), checkStorageLimit, handleUploadFile)
   .get(handleFetchFiles)
+  .put(handleMoveFile)
   .delete(handleDeleteFile);
 
 router.route("/folder").post(handleCreateFolder).delete(handleDeleteFolder);

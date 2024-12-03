@@ -171,10 +171,55 @@ const handleDeleteFolder = async (req, res) => {
   }
 };
 
+const handleMoveFile = async (req, res) => {
+  const { id } = req.user;
+  const { file, filePath, path: targetPath, type } = req.body;
+
+  if (!file || !filePath) {
+    return res.status(400).send("No folder or path provided.");
+  }
+
+  try {
+    const sourceFolderPath =
+      filePath === "" ? `${id}/${file}/` : `${id}/${filePath}`;
+
+    const newPath =
+      type === "file"
+        ? `${id}/${targetPath}`
+        : targetPath === ""
+        ? `${id}/${targetPath}`
+        : `${id}/${targetPath}/`;
+
+    const [files] = await bucket.getFiles({ prefix: sourceFolderPath });
+
+    const copyPromises = files.map((gcsFile) => {
+      const newFilePath =
+        type === "directory"
+          ? `${newPath}${file}/`
+          : targetPath === ""
+          ? `${newPath}${file}`
+          : `${newPath}/${file}`;
+
+      return gcsFile.copy(newFilePath);
+    });
+
+    await Promise.all(copyPromises);
+
+    const deletePromises = files.map((gcsFile) => gcsFile.delete());
+    await Promise.all(deletePromises);
+
+    return res.status(200).send(`Folder and its contents moved successfully.`);
+  } catch (error) {
+    console.error("Error moving folder:", error);
+    return res.status(500).send("Error moving the folder.");
+  }
+};
+
 export {
   handleUploadFile,
   handleFetchFiles,
   handleCreateFolder,
   handleDeleteFile,
   handleDeleteFolder,
+  handleMoveFile,
 };
