@@ -192,7 +192,11 @@ const handleMoveFile = async (req, res) => {
 
     const [files] = await bucket.getFiles({ prefix: sourceFolderPath });
 
-    const copyPromises = files.map((gcsFile) => {
+    if (files.length > 25) {
+      return res.status(400).send("Cannot move more than 25 files at once.");
+    }
+
+    const promises = files.map(async (gcsFile) => {
       const newFilePath =
         type === "directory"
           ? `${newPath}${file}/`
@@ -200,13 +204,10 @@ const handleMoveFile = async (req, res) => {
           ? `${newPath}${file}`
           : `${newPath}/${file}`;
 
-      return gcsFile.copy(newFilePath);
+      return gcsFile.move(newFilePath);
     });
 
-    await Promise.all(copyPromises);
-
-    const deletePromises = files.map((gcsFile) => gcsFile.delete());
-    await Promise.all(deletePromises);
+    await Promise.all(promises);
 
     return res.status(200).send(`Folder and its contents moved successfully.`);
   } catch (error) {

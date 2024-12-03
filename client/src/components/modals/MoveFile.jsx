@@ -31,6 +31,11 @@ const MoveFile = ({ SelectedFile }) => {
           .then(() => {
             mutate();
             toastInfo(`Moved ${SelectedFile.name}`);
+          })
+          .catch((error) => {
+            toastInfo(
+              `Error moving ${SelectedFile.name}, ${error.response.data}`
+            );
           });
       },
     });
