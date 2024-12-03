@@ -15,7 +15,6 @@ const MoveFile = ({ SelectedFile }) => {
   const { toastInfo } = useToast();
   const { currentTab } = useTabs();
 
-  console.log(SelectedFile.type);
   const handleMove = () => {
     confirm({
       title: SelectedFile.type === "directory" ? "Move Folder" : "Move File",
