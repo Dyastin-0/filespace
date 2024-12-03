@@ -1,4 +1,4 @@
-import { faFolderPlus } from "@fortawesome/free-solid-svg-icons";
+import { faFile, faFolder } from "@fortawesome/free-solid-svg-icons";
 import useAxios from "../../hooks/useAxios";
 import useFiles from "../../hooks/useFiles";
 import useTabs from "../../hooks/useTabs";
@@ -44,7 +44,11 @@ const MoveFile = ({ SelectedFile }) => {
   return (
     <GenericModal title={`Move ${SelectedFile.name}`}>
       <RootFolders />
-      <Button text="Move" icon={faFolderPlus} onClick={handleMove} />
+      <Button
+        text="Move"
+        icon={SelectedFile?.type === "directory" ? faFolder : faFile}
+        onClick={handleMove}
+      />
     </GenericModal>
   );
 };

@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { getFileIcon } from "../helpers/icon";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import useFiles from "../hooks/useFiles";
@@ -5,14 +8,7 @@ import useAxios from "../hooks/useAxios";
 import useToast from "./hooks/useToast";
 import useConfirm from "./hooks/useConfirm";
 import useContextMenu from "./hooks/useContextMenu";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useTabs from "../hooks/useTabs";
-import { getFileIcon } from "../helpers/icon";
-import {
-  faCopy,
-  faFolderMinus,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
 import useModal from "./hooks/useModal";
 import MoveFile from "./modals/MoveFile";
 
@@ -58,7 +54,7 @@ const File = ({ file }) => {
     },
     {
       label: "Move to",
-      icon: faFolderMinus,
+      icon: faFolder,
       onClick: handleMove,
     },
     {
