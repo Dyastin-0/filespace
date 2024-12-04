@@ -11,6 +11,8 @@ import useContextMenu from "./hooks/useContextMenu";
 import useTabs from "../hooks/useTabs";
 import MoveFile from "./modals/MoveFile";
 import useModal from "./hooks/useModal";
+import TruncatedText from "./ui/TruncatedText";
+import Tooltip from "./ui/Tooltip";
 
 dayjs.extend(relativeTime);
 
@@ -78,19 +80,17 @@ const Folder = ({ file }) => {
       onDoubleClick={() => isFolder && addTab(file)}
       onContextMenu={onContextMenu}
     >
-      <div className="flex gap-2">
+      <div className="flex gap-2 font-semibold">
         <FontAwesomeIcon icon={faFolder} className="text-primary-highlight" />
-        <span className="block truncate font-semibold">{file.name}</span>
+        <Tooltip text={file.path}>
+          <TruncatedText text={file.name} tooltip={false} />
+        </Tooltip>
       </div>
-      <span className="block truncate text-secondary-foreground">
-        {file.parent.name}
-      </span>
-      <span className="block truncate text-primary-foreground">
-        {isMB ? sizeMB : sizeKB} {isMB ? "MB" : "KB"}
-      </span>
-      <span className="block truncate text-primary-foreground">
-        {dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
-      </span>
+      <TruncatedText text={file.parent.name} />
+      <TruncatedText text={`${isMB ? sizeMB : sizeKB} ${isMB ? "MB" : "KB"}`} />
+      <TruncatedText
+        text={dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
+      />
       <ContextMenu />
     </div>
   );

@@ -6,7 +6,7 @@ import useTabs from "../hooks/useTabs";
 
 const Files = () => {
   const { user } = useAuth();
-  const { tabs, currentTab } = useTabs();
+  const { tabs } = useTabs();
 
   return (
     <div className="flex flex-col w-full h-full bg-primary gap-2 rounded-md text-xs">
@@ -14,10 +14,10 @@ const Files = () => {
         <h1 className="font-semibold">{`${user?.username}${
           user?.username.endsWith("s") ? "'" : "'s"
         } files`}</h1>
-        <DirectoryTabs tabs={tabs} currentTab={currentTab} />
+        <DirectoryTabs />
       </div>
       <Separator />
-      {tabs.length > 0 && <Directory files={currentTab} />}
+      {tabs.length > 0 && <Directory />}
     </div>
   );
 };

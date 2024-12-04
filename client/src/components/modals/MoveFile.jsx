@@ -16,6 +16,9 @@ const MoveFile = ({ SelectedFile }) => {
   const { currentTab } = useTabs();
 
   const handleMove = () => {
+    if (SelectedFile.path === currentTab.path)
+      return toastInfo("File is already in this folder.");
+
     confirm({
       title: SelectedFile.type === "directory" ? "Move Folder" : "Move File",
       message: `Are you sure you want to move ${SelectedFile.name} to ${currentTab.name}?`,

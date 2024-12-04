@@ -11,6 +11,7 @@ import useContextMenu from "./hooks/useContextMenu";
 import useTabs from "../hooks/useTabs";
 import useModal from "./hooks/useModal";
 import MoveFile from "./modals/MoveFile";
+import TruncatedText from "./ui/TruncatedText";
 
 dayjs.extend(relativeTime);
 
@@ -89,18 +90,16 @@ const File = ({ file }) => {
           className="font-semibold transition-all duration-300 w-full
           hover:text-primary-highlight block truncate"
         >
-          {file.name}
+          <TruncatedText text={file.name} className />
         </a>
       </div>
-      <span className="block truncate text-secondary-foreground">
-        {file.parent.name}
-      </span>
-      <span className="block truncate text-primary-foreground">
-        {isMB ? sizeMB : sizeKB} {isMB ? "MB" : "KB"}
-      </span>
-      <span className="block truncate text-primary-foreground">
-        {dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
-      </span>
+      <TruncatedText text={file.parent.name} />
+      <TruncatedText
+        text={isFolder ? "-" : isMB ? `${sizeMB} MB` : `${sizeKB} KB`}
+      />
+      <TruncatedText
+        text={dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
+      />
       <ContextMenu />
     </div>
   );

@@ -6,11 +6,13 @@ import useFiles from "../hooks/useFiles";
 import useToast from "./hooks/useToast";
 import Headers from "./Headers";
 import React from "react";
+import useTabs from "../hooks/useTabs";
 
-const Directory = ({ files }) => {
+const Directory = () => {
   const { api } = useAxios();
   const { mutate } = useFiles();
   const { toastInfo } = useToast();
+  const { currentTab: files } = useTabs();
 
   const handleDrop = (e) => {
     preventDefault(e);
