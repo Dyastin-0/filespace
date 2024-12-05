@@ -19,6 +19,7 @@ import { Link as DomLink } from "react-router-dom";
 import Filespace from "./Filespace";
 import useViewport from "../hooks/useViewport";
 import useFiles from "../hooks/useFiles";
+import Tooltip from "./ui/Tooltip";
 
 const Navbar = ({ toggleSideNavbar }) => {
   const navigate = useNavigate();
@@ -74,28 +75,35 @@ const Navbar = ({ toggleSideNavbar }) => {
         {token &&
           viewWidth > 768 &&
           routes.map((route, index) => (
-            <Link key={index} path={route.path} icon={route.icon} />
+            <Tooltip text={route.name}>
+              <Link key={index} path={route.path} icon={route.icon} />
+            </Tooltip>
           ))}
         {!token &&
           viewWidth > 768 &&
           authRoutes.map((route, index) => (
-            <Link
-              key={index}
-              path={route.path}
-              name={route.name}
-              icon={route.icon}
-            />
+            <Tooltip text={route.name}>
+              <Link
+                key={index}
+                path={route.path}
+                name={route.name}
+                icon={route.icon}
+              />
+            </Tooltip>
           ))}
       </div>
       <div className="flex w-fit gap-2 justify-center items-center">
-        <Button
-          variant="default_rounded"
-          icon={icon}
-          onClick={toggleTheme}
-          className="p-2"
-        />
+        <Tooltip text="Toggle theme">
+          <Button
+            variant="default_rounded"
+            icon={icon}
+            onClick={toggleTheme}
+            className="p-2"
+          />
+        </Tooltip>
         {token && (
           <Dropdown
+            tooltip="Account"
             variant="default_rounded"
             p={1}
             name={

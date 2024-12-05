@@ -3,6 +3,7 @@ import Button from "./Button";
 import { motion } from "framer-motion";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Tooltip from "./Tooltip";
 
 export const Dropdown = ({
   name,
@@ -10,6 +11,7 @@ export const Dropdown = ({
   children,
   className,
   variant,
+  tooltip,
   p = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,14 +34,16 @@ export const Dropdown = ({
       className={clsx("relative flex items-center", className)}
       ref={dropdownRef}
     >
-      <Button
-        icon={icon}
-        variant={variant}
-        text={name}
-        onClick={toggle}
-        onBlur={handleBlur}
-        className={clsx(p && "p-[0rem]")}
-      />
+      <Tooltip text={tooltip}>
+        <Button
+          icon={icon}
+          variant={variant}
+          text={name}
+          onClick={toggle}
+          onBlur={handleBlur}
+          className={clsx(p && "p-[0rem]")}
+        />
+      </Tooltip>
       <motion.div
         initial={{ scaleY: 0, opacity: 0, y: -50 }}
         animate={

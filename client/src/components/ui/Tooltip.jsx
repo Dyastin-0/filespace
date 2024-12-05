@@ -51,13 +51,13 @@ const Tooltip = ({ children, text }) => {
           <AnimatePresence>
             <motion.div
               ref={tooltipRef}
-              className="fixed bg-secondary border border-secondary-accent whitespace-normal break-words text-xs text-primary-foreground rounded-md p-2 shadow-lg z-[9999] max-w-xs"
+              className="fixed bg-secondary border border-secondary-accent whitespace-normal break-words text-xs text-primary-foreground rounded-md p-2 z-[9999] max-w-xs"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
               style={{
-                top: tooltipPosition.top,
+                top: tooltipPosition.top + 8,
                 left: tooltipPosition.left,
               }}
             >

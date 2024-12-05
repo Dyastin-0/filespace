@@ -12,6 +12,7 @@ import useTabs from "../hooks/useTabs";
 import useModal from "./hooks/useModal";
 import MoveFile from "./modals/MoveFile";
 import TruncatedText from "./ui/TruncatedText";
+import Tooltip from "./ui/Tooltip";
 
 dayjs.extend(relativeTime);
 
@@ -72,36 +73,40 @@ const File = ({ file }) => {
   const isFolder = file.type === "directory";
 
   return (
-    <div
-      tabIndex={0}
-      key={file.path}
-      className="grid grid-cols-4 p-2 gap-2 text-xs rounded cursor-pointer focus:bg-primary hover:bg-primary
+    <Tooltip text={file.name}>
+      <div
+        tabIndex={0}
+        key={file.path}
+        className="grid grid-cols-4 p-2 gap-2 text-xs rounded cursor-pointer focus:bg-primary hover:bg-primary
       transition-all duration-300"
-      onDoubleClick={() => isFolder && addTab(file)}
-      onContextMenu={onContextMenu}
-      onBlur={closeContextMenu}
-    >
-      <div className="flex gap-2">
-        <FontAwesomeIcon icon={icon} />
-        <a
-          href={file.link}
-          target="_blank"
-          rel="noreferrer"
-          className="font-semibold transition-all duration-300 w-full
+        onDoubleClick={() => isFolder && addTab(file)}
+        onContextMenu={onContextMenu}
+        onBlur={closeContextMenu}
+      >
+        <div className="flex gap-2">
+          <FontAwesomeIcon icon={icon} />
+          <a
+            href={file.link}
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold transition-all duration-300 w-full
           hover:text-primary-highlight block truncate"
-        >
-          <TruncatedText text={file.name} className />
-        </a>
+          >
+            <TruncatedText text={file.name} tooltip={false} />
+          </a>
+        </div>
+        <TruncatedText text={file.parent.name} tooltip={false} />
+        <TruncatedText
+          tooltip={false}
+          text={isFolder ? "-" : isMB ? `${sizeMB} MB` : `${sizeKB} KB`}
+        />
+        <TruncatedText
+          tooltip={false}
+          text={dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
+        />
+        <ContextMenu />
       </div>
-      <TruncatedText text={file.parent.name} />
-      <TruncatedText
-        text={isFolder ? "-" : isMB ? `${sizeMB} MB` : `${sizeKB} KB`}
-      />
-      <TruncatedText
-        text={dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
-      />
-      <ContextMenu />
-    </div>
+    </Tooltip>
   );
 };
 

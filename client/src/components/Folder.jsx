@@ -72,27 +72,31 @@ const Folder = ({ file }) => {
   const isFolder = file.type === "directory";
 
   return (
-    <div
-      tabIndex={0}
-      key={file.path}
-      className="grid grid-cols-4 p-2 gap-2 text-xs rounded cursor-pointer focus:bg-primary hover:bg-primary
+    <Tooltip text={file.path}>
+      <div
+        tabIndex={0}
+        key={file.path}
+        className="grid grid-cols-4 p-2 gap-2 text-xs rounded cursor-pointer focus:bg-primary hover:bg-primary
       transition-all duration-300"
-      onDoubleClick={() => isFolder && addTab(file)}
-      onContextMenu={onContextMenu}
-    >
-      <div className="flex gap-2 font-semibold">
-        <FontAwesomeIcon icon={faFolder} className="text-primary-highlight" />
-        <Tooltip text={file.path}>
+        onDoubleClick={() => isFolder && addTab(file)}
+        onContextMenu={onContextMenu}
+      >
+        <div className="flex gap-2 font-semibold">
+          <FontAwesomeIcon icon={faFolder} className="text-primary-highlight" />
           <TruncatedText text={file.name} tooltip={false} />
-        </Tooltip>
+        </div>
+        <TruncatedText text={file.parent.name} tooltip={false} />
+        <TruncatedText
+          tooltip={false}
+          text={`${isMB ? sizeMB : sizeKB} ${isMB ? "MB" : "KB"}`}
+        />
+        <TruncatedText
+          tooltip={false}
+          text={dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
+        />
+        <ContextMenu />
       </div>
-      <TruncatedText text={file.parent.name} />
-      <TruncatedText text={`${isMB ? sizeMB : sizeKB} ${isMB ? "MB" : "KB"}`} />
-      <TruncatedText
-        text={dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
-      />
-      <ContextMenu />
-    </div>
+    </Tooltip>
   );
 };
 
