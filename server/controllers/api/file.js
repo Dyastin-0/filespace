@@ -220,7 +220,7 @@ const handleMoveFile = async (req, res) => {
 
 const handleSendFile = async (req, res) => {
   const { id, email: sender } = req.user;
-  const { email, file } = req.body;
+  const { email, file, expiration } = req.body;
 
   if (!email || !file) {
     return res.status(400).send("No email or file provided.");
@@ -232,8 +232,8 @@ const handleSendFile = async (req, res) => {
     });
 
     const [url] = await gcsFile[0].getSignedUrl({
-      action: "read",
-      expires: Date.now() + 15 * 60 * 1000,
+      action: "",
+      expires: Date.now() + expiration.value,
     });
 
     sendHtmlEmail(
@@ -242,7 +242,7 @@ const handleSendFile = async (req, res) => {
       emailTemplate(
         `Hi, ${email}!`,
         `${sender} has sent you a file. You can download it from the link below.
-        The link expires in 15 minutes.`,
+        The link expires in ${expiration.text}.`,
         url,
         "Link to the file"
       )
