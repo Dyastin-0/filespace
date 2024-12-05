@@ -7,7 +7,7 @@ const Tooltip = ({ children, text, disableTooltip }) => {
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const tooltipRef = useRef(null);
   const triggerRef = useRef(null);
-  const hoverTimeoutRef = useRef(null); // Ref to hold the timeout
+  const hoverTimeoutRef = useRef(null);
 
   const updateTooltipPosition = () => {
     if (triggerRef.current && tooltipRef.current) {
@@ -27,14 +27,12 @@ const Tooltip = ({ children, text, disableTooltip }) => {
       return;
     }
 
-    // Set a timeout to show the tooltip after 0.5 seconds
     hoverTimeoutRef.current = setTimeout(() => {
       setIsHovered(true);
     }, 500);
   };
 
   const handleMouseLeave = () => {
-    // Cancel the timeout if mouse leaves before the 0.5 seconds
     clearTimeout(hoverTimeoutRef.current);
     setIsHovered(false);
   };
