@@ -75,20 +75,15 @@ const Navbar = ({ toggleSideNavbar }) => {
         {token &&
           viewWidth > 768 &&
           routes.map((route, index) => (
-            <Tooltip text={route.name}>
-              <Link key={index} path={route.path} icon={route.icon} />
+            <Tooltip key={index} text={route.name}>
+              <Link path={route.path} icon={route.icon} />
             </Tooltip>
           ))}
         {!token &&
           viewWidth > 768 &&
           authRoutes.map((route, index) => (
-            <Tooltip text={route.name}>
-              <Link
-                key={index}
-                path={route.path}
-                name={route.name}
-                icon={route.icon}
-              />
+            <Tooltip key={index} text={route.name}>
+              <Link path={route.path} name={route.name} icon={route.icon} />
             </Tooltip>
           ))}
       </div>
