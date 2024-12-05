@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import GenericModal from "./GenericModal";
 import Button from "../ui/Button";
 import NormalInput from "../ui/NormalInput";
@@ -35,7 +35,11 @@ const SendFile = ({ file }) => {
   const { toastInfo } = useToast();
   const { api } = useAxios();
 
-  const [expiration, setExpiration] = useState(expirationOptions[0].value);
+  const [expiration, setExpiration] = useState(expirationOptions[0]);
+
+  const inputRef = useRef(null);
+
+  useEffect(() => inputRef.current.focus(), []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -65,7 +69,7 @@ const SendFile = ({ file }) => {
   return (
     <GenericModal title={`Send ${file.name}`}>
       <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-        <NormalInput placeholder="Email" type="email" />
+        <NormalInput ref={inputRef} placeholder="Email" type="email" />
         <div className="flex flex-col flex-wrap gap-2">
           <h2 className="text-xs font-semibold">Link expiration</h2>
           <div className="flex flex-wrap gap-2">
