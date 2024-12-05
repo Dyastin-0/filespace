@@ -13,14 +13,12 @@ const useContextMenu = (menuOptions = []) => {
 
   const onContextMenu = (e) => {
     e.preventDefault();
-    e.currentTarget.focus();
-    if (e.button === 2) {
-      setContextMenu({
-        visible: true,
-        x: e.clientX,
-        y: e.clientY,
-      });
-    }
+
+    setContextMenu({
+      visible: true,
+      x: e.clientX,
+      y: e.clientY,
+    });
   };
 
   const closeContextMenu = () => {
@@ -35,21 +33,37 @@ const useContextMenu = (menuOptions = []) => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("scroll", closeContextMenu);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("scroll", closeContextMenu);
     };
   }, []);
+
+  useEffect(() => {
+    if (contextMenu.visible && menuRef.current) {
+      const menuRect = menuRef.current.getBoundingClientRect();
+
+      setContextMenu((prev) => ({
+        ...prev,
+        x: Math.min(prev.x, window.innerWidth - menuRect.width - 8),
+        y: Math.min(prev.y, window.innerHeight - menuRect.height - 8),
+      }));
+    }
+  }, [contextMenu.visible]);
 
   const ContextMenu = () => (
     <AnimatePresence>
       {contextMenu.visible && (
         <motion.div
           ref={menuRef}
-          className="absolute z-10 transition-all duration-300 rounded-md bg-primary text-primary-foreground p-2 border border-secondary-accent"
+          onMouseEnter={(e) => e.stopPropagation()}
+          className="fixed z-50 rounded-md bg-primary text-primary-foreground p-2 border border-secondary-accent shadow-lg"
           style={{ top: contextMenu.y, left: contextMenu.x }}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.2 }}
         >
           <ul className="text-xs font-semibold">
             {menuOptions.map((option, index) => (
@@ -61,7 +75,8 @@ const useContextMenu = (menuOptions = []) => {
                   closeContextMenu();
                 }}
               >
-                {option.label} <FontAwesomeIcon icon={option.icon} />
+                {option.label}
+                {option.icon && <FontAwesomeIcon icon={option.icon} />}
               </li>
             ))}
           </ul>
