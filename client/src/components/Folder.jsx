@@ -67,12 +67,13 @@ const Folder = ({ file }) => {
     },
   ];
 
-  const { onContextMenu, ContextMenu } = useContextMenu(menuOptions);
+  const { onContextMenu, ContextMenu, contextMenu } =
+    useContextMenu(menuOptions);
 
   const isFolder = file.type === "directory";
 
   return (
-    <Tooltip text={file.path}>
+    <Tooltip text={file.path} disableTooltip={contextMenu.visible}>
       <div
         tabIndex={0}
         key={file.path}

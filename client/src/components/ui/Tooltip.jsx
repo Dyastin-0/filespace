@@ -2,30 +2,34 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-const Tooltip = ({ children, text }) => {
+const Tooltip = ({ children, text, disableTooltip }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const tooltipRef = useRef(null);
   const triggerRef = useRef(null);
 
   const updateTooltipPosition = () => {
-    if (triggerRef.current) {
+    if (triggerRef.current && tooltipRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
-      const tooltipRect = tooltipRef.current?.getBoundingClientRect();
+      const tooltipRect = tooltipRef.current.getBoundingClientRect();
 
       setTooltipPosition({
         top: rect.bottom + 8,
-        left: Math.min(
-          rect.left,
-          window.innerWidth - (tooltipRect?.width || 0) - 16
-        ),
+        left: Math.min(rect.left, window.innerWidth - tooltipRect.width - 16),
       });
     }
   };
 
   const handleMouseEnter = () => {
+    if (disableTooltip) {
+      setIsHovered(false);
+      return;
+    }
     setIsHovered(true);
-    updateTooltipPosition();
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
   };
 
   useEffect(() => {
@@ -35,8 +39,7 @@ const Tooltip = ({ children, text }) => {
       });
       window.addEventListener("resize", updateTooltipPosition);
 
-      // // Recalculate tooltip position after a brief delay to ensure correct positioning
-      // setTimeout(updateTooltipPosition, 0);
+      setTimeout(updateTooltipPosition, 0);
     }
 
     return () => {
@@ -50,12 +53,13 @@ const Tooltip = ({ children, text }) => {
       className="relative"
       ref={triggerRef}
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={handleMouseLeave}
     >
       {children}
       {isHovered &&
+        !disableTooltip &&
         createPortal(
-          <AnimatePresence>
+          <AnimatePresence mode="sync">
             <motion.div
               ref={tooltipRef}
               className="fixed bg-secondary border border-secondary-accent whitespace-normal break-words text-xs text-primary-foreground rounded-md p-2 z-[9999] max-w-xs shadow-sm"

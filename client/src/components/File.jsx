@@ -66,14 +66,14 @@ const File = ({ file }) => {
     },
   ];
 
-  const { onContextMenu, closeContextMenu, ContextMenu } =
+  const { onContextMenu, ContextMenu, contextMenu } =
     useContextMenu(menuOptions);
 
   const icon = getFileIcon(file.name);
   const isFolder = file.type === "directory";
 
   return (
-    <Tooltip text={file.name}>
+    <Tooltip text={file.name} disableTooltip={contextMenu.visible}>
       <div
         tabIndex={0}
         key={file.path}
@@ -81,7 +81,6 @@ const File = ({ file }) => {
       transition-all duration-300"
         onDoubleClick={() => isFolder && addTab(file)}
         onContextMenu={onContextMenu}
-        onBlur={closeContextMenu}
       >
         <div className="flex gap-2">
           <FontAwesomeIcon icon={icon} />
