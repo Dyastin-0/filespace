@@ -6,42 +6,49 @@ const Tooltip = ({ children, text }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const tooltipRef = useRef(null);
+  const triggerRef = useRef(null);
 
-  const handleMouseEnter = (e) => {
-    e.stopPropagation();
+  const updateTooltipPosition = () => {
+    if (triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      const tooltipRect = tooltipRef.current?.getBoundingClientRect();
+
+      setTooltipPosition({
+        top: rect.bottom + 8,
+        left: Math.min(
+          rect.left,
+          window.innerWidth - (tooltipRect?.width || 0) - 16
+        ),
+      });
+    }
+  };
+
+  const handleMouseEnter = () => {
     setIsHovered(true);
-    const rect = e.currentTarget.getBoundingClientRect();
-    setTooltipPosition({
-      top: rect.bottom + window.scrollY,
-      left: rect.left + window.scrollX,
-    });
+    updateTooltipPosition();
   };
 
   useEffect(() => {
-    if (isHovered && tooltipRef.current) {
-      const tooltipRect = tooltipRef.current.getBoundingClientRect();
+    if (isHovered) {
+      window.addEventListener("scroll", updateTooltipPosition, {
+        passive: true,
+      });
+      window.addEventListener("resize", updateTooltipPosition);
 
-      if (tooltipRect.right > window.innerWidth) {
-        setTooltipPosition((prev) => ({
-          ...prev,
-          left: window.innerWidth - tooltipRect.width - 16,
-        }));
-      } else if (tooltipRect.left < 0) {
-        setTooltipPosition((prev) => ({ ...prev, left: 16 }));
-      }
-
-      if (tooltipRect.bottom > window.innerHeight) {
-        setTooltipPosition((prev) => ({
-          ...prev,
-          top: window.innerHeight - tooltipRect.height - 16,
-        }));
-      }
+      // // Recalculate tooltip position after a brief delay to ensure correct positioning
+      // setTimeout(updateTooltipPosition, 0);
     }
+
+    return () => {
+      window.removeEventListener("scroll", updateTooltipPosition);
+      window.removeEventListener("resize", updateTooltipPosition);
+    };
   }, [isHovered]);
 
   return (
     <div
       className="relative"
+      ref={triggerRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -51,13 +58,13 @@ const Tooltip = ({ children, text }) => {
           <AnimatePresence>
             <motion.div
               ref={tooltipRef}
-              className="fixed bg-secondary border border-secondary-accent whitespace-normal break-words text-xs text-primary-foreground rounded-md p-2 z-[9999] max-w-xs"
+              className="fixed bg-secondary border border-secondary-accent whitespace-normal break-words text-xs text-primary-foreground rounded-md p-2 z-[9999] max-w-xs shadow-sm"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
               style={{
-                top: tooltipPosition.top + 8,
+                top: tooltipPosition.top,
                 left: tooltipPosition.left,
               }}
             >
