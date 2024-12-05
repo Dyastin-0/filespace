@@ -1,5 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCopy,
+  faFolder,
+  faMailForward,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { getFileIcon } from "../helpers/icon";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -13,6 +18,7 @@ import useModal from "./hooks/useModal";
 import MoveFile from "./modals/MoveFile";
 import TruncatedText from "./ui/TruncatedText";
 import Tooltip from "./ui/Tooltip";
+import SendFile from "./modals/SendFile";
 
 dayjs.extend(relativeTime);
 
@@ -29,40 +35,44 @@ const File = ({ file }) => {
 
   const isMB = sizeMB >= 1;
 
-  const handleDelete = () => {
-    confirm({
-      title: "Delete File",
-      message: `Are you sure you want to delete ${file.name} file?`,
-      onConfirm: () => {
-        toastInfo(`Deleting ${file.name}...`);
-        api.delete("/files", { data: { path: file.path } }).then(() => {
-          mutate();
-          toastInfo(`Deleted ${file.name}`);
-        });
-      },
-    });
-  };
-
-  const handleMove = () => {
-    setModal(<MoveFile SelectedFile={file} />);
-    setOpen(true);
-  };
-
   const menuOptions = [
     {
       label: "Delete",
       icon: faTrash,
-      onClick: handleDelete,
+      onClick: () => {
+        confirm({
+          title: "Delete File",
+          message: `Are you sure you want to delete ${file.name} file?`,
+          onConfirm: () => {
+            toastInfo(`Deleting ${file.name}...`);
+            api.delete("/files", { data: { path: file.path } }).then(() => {
+              mutate();
+              toastInfo(`Deleted ${file.name}`);
+            });
+          },
+        });
+      },
     },
     {
       label: "Move to",
       icon: faFolder,
-      onClick: handleMove,
+      onClick: () => {
+        setModal(<MoveFile SelectedFile={file} />);
+        setOpen(true);
+      },
     },
     {
       label: "Copy",
       icon: faCopy,
-      onClick: () => console.log("Option 3 clicked"),
+      onClick: () => console.log("Copy"),
+    },
+    {
+      label: "Send to",
+      icon: faMailForward,
+      onClick: () => {
+        setModal(<SendFile file={file} />);
+        setOpen(true);
+      },
     },
   ];
 

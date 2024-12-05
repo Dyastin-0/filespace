@@ -1,5 +1,7 @@
+import { sendHtmlEmail } from "../../helpers/email.js";
 import Users from "../../models/user.js";
 import { Storage } from "@google-cloud/storage";
+import { emailTemplate } from "../../templates/email.js";
 
 const storage = new Storage({
   projectId: process.env.GCLOUD_PROJECT_ID,
@@ -216,6 +218,43 @@ const handleMoveFile = async (req, res) => {
   }
 };
 
+const handleSendFile = async (req, res) => {
+  const { id, email: sender } = req.user;
+  const { email, file } = req.body;
+
+  if (!email || !file) {
+    return res.status(400).send("No email or file provided.");
+  }
+
+  try {
+    const [gcsFile] = await bucket.getFiles({
+      prefix: `${id}/${file}`,
+    });
+
+    const [url] = await gcsFile[0].getSignedUrl({
+      action: "read",
+      expires: Date.now() + 15 * 60 * 1000,
+    });
+
+    sendHtmlEmail(
+      email,
+      "Filespace File",
+      emailTemplate(
+        `Hi, ${email}!`,
+        `${sender} has sent you a file. You can download it from the link below.
+        The link expires in 15 minutes.`,
+        url,
+        "Link to the file"
+      )
+    );
+
+    return res.status(200).send("File sent successfully.");
+  } catch (error) {
+    console.error("Error sending file:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
 export {
   handleUploadFile,
   handleFetchFiles,
@@ -223,4 +262,5 @@ export {
   handleDeleteFile,
   handleDeleteFolder,
   handleMoveFile,
+  handleSendFile,
 };

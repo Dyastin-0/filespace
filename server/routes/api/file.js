@@ -7,6 +7,7 @@ import {
   handleFetchFiles,
   handleUploadFile,
   handleMoveFile,
+  handleSendFile,
 } from "../../controllers/api/file.js";
 
 import upload from "../../middlewares/multer.js";
@@ -21,5 +22,7 @@ router
   .delete(handleDeleteFile);
 
 router.route("/folder").post(handleCreateFolder).delete(handleDeleteFolder);
+
+router.route("/send").post(handleSendFile);
 
 export default router;
