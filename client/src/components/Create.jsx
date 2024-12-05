@@ -50,7 +50,12 @@ const Create = () => {
 
   return (
     <div>
-      <Dropdown name="Upload or create" icon={faPlusSquare} className="w-fit">
+      <Dropdown
+        tooltip="Create files"
+        name="Upload or create"
+        icon={faPlusSquare}
+        className="w-fit"
+      >
         <DropdownItem
           text="Folder"
           icon={faFolder}

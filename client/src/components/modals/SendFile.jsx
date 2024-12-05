@@ -70,9 +70,8 @@ const SendFile = ({ file }) => {
           <h2 className="text-xs font-semibold">Link expiration</h2>
           <div className="flex flex-wrap gap-2">
             {expirationOptions.map((option) => (
-              <Tooltip text={`Expires in ${option.text}`}>
+              <Tooltip key={option.value} text={`Expires in ${option.text}`}>
                 <Checkbox
-                  key={option.value}
                   name={option.text}
                   value={expiration.value === option.value}
                   onChecked={(e) => {
