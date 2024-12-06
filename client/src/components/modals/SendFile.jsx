@@ -7,7 +7,6 @@ import useConfirm from "../hooks/useConfirm";
 import useToast from "../hooks/useToast";
 import { testEmail } from "../../helpers/regex";
 import useAxios from "../../hooks/useAxios";
-import { Dropdown, DropdownItem } from "../ui/Dropdown";
 import Checkbox from "../ui/Checkbox";
 import Tooltip from "../ui/Tooltip";
 
@@ -61,6 +60,9 @@ const SendFile = ({ file }) => {
           })
           .then(() => {
             toastInfo(`Sent ${file.name}`);
+          })
+          .catch((error) => {
+            toastInfo(error.response.data);
           });
       },
     });
