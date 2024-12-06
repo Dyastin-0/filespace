@@ -7,6 +7,8 @@ import useFiles from "../../hooks/useFiles";
 import useToast from "../hooks/useToast";
 import NormalInput from "../ui/NormalInput";
 import GenericModal from "./GenericModal";
+import Tooltip from "../ui/Tooltip";
+import { faFolder } from "@fortawesome/free-solid-svg-icons";
 
 const CreateFolder = () => {
   const { setOpen } = useModal();
@@ -49,7 +51,23 @@ const CreateFolder = () => {
     <GenericModal title="Create folder">
       <form onSubmit={handleCreate} className="flex flex-col items-end gap-4">
         <NormalInput ref={inputRef} placeholder="Folder name" />
-        <Button type="submit" text="Create" className="w-fit" />
+        <div className="grid grid-cols-2 gap-2 w-full">
+          <Button
+            type="button"
+            text="Cancel"
+            variant="ghost"
+            className="w-full"
+            onClick={() => setOpen(false)}
+          />
+          <Tooltip text="Create folder">
+            <Button
+              type="submit"
+              text="Create"
+              icon={faFolder}
+              className="w-full"
+            />
+          </Tooltip>
+        </div>
       </form>
     </GenericModal>
   );

@@ -7,6 +7,7 @@ import useToast from "../hooks/useToast";
 import RootFolders from "../RootFolders";
 import Button from "../ui/Button";
 import GenericModal from "./GenericModal";
+import Tooltip from "../ui/Tooltip";
 
 const MoveFile = ({ SelectedFile }) => {
   const { mutate } = useFiles();
@@ -47,11 +48,26 @@ const MoveFile = ({ SelectedFile }) => {
   return (
     <GenericModal title={`Move ${SelectedFile.name}`}>
       <RootFolders />
-      <Button
-        text="Move"
-        icon={SelectedFile?.type === "directory" ? faFolder : faFile}
-        onClick={handleMove}
-      />
+      <div className="grid grid-cols-2 gap-2 w-full">
+        <Button
+          className="w-full"
+          text="Cancel"
+          variant="ghost"
+          onClick={() => setOpen(false)}
+        />
+        <Tooltip
+          text={`Move ${
+            SelectedFile.type === "directory" ? "folder" : "file"
+          } to ${currentTab.path}`}
+        >
+          <Button
+            text="Move"
+            icon={SelectedFile?.type === "directory" ? faFolder : faFile}
+            onClick={handleMove}
+            className="w-full"
+          />
+        </Tooltip>
+      </div>
     </GenericModal>
   );
 };

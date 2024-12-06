@@ -18,7 +18,7 @@ import useModal from "./hooks/useModal";
 import MoveFile from "./modals/MoveFile";
 import TruncatedText from "./ui/TruncatedText";
 import Tooltip from "./ui/Tooltip";
-import SendFile from "./modals/SendFile";
+import ShareFile from "./modals/ShareFile";
 
 dayjs.extend(relativeTime);
 
@@ -67,10 +67,10 @@ const File = ({ file }) => {
       onClick: () => console.log("Copy"),
     },
     {
-      label: "Send to",
+      label: "Share",
       icon: faMailForward,
       onClick: () => {
-        setModal(<SendFile file={file} />);
+        setModal(<ShareFile file={file} />);
         setOpen(true);
       },
     },
