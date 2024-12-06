@@ -13,6 +13,7 @@ const useContextMenu = (menuOptions = []) => {
 
   const onContextMenu = (e) => {
     e.preventDefault();
+    e.stopPropagation();
 
     setContextMenu({
       visible: true,

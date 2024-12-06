@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { displayCopy, preventDefault } from "../helpers/drop";
 import Folder from "./Folder";
 import File from "./File";
@@ -5,14 +6,64 @@ import useAxios from "../hooks/useAxios";
 import useFiles from "../hooks/useFiles";
 import useToast from "./hooks/useToast";
 import Headers from "./Headers";
-import React from "react";
 import useTabs from "../hooks/useTabs";
+import useContextMenu from "./hooks/useContextMenu";
+import { faFileUpload, faFolderPlus } from "@fortawesome/free-solid-svg-icons";
+import useModal from "./hooks/useModal";
+import CreateFolder from "./modals/CreateFolder";
 
 const Directory = () => {
   const { api } = useAxios();
   const { mutate } = useFiles();
   const { toastInfo } = useToast();
   const { currentTab: files } = useTabs();
+  const { setModal, setOpen } = useModal();
+
+  const fileInputRef = useRef(null);
+
+  const menuOptions = [
+    {
+      label: "New Folder",
+      icon: faFolderPlus,
+      onClick: () => {
+        setModal(<CreateFolder />);
+        setOpen(true);
+      },
+    },
+    {
+      label: "Upload Files",
+      icon: faFileUpload,
+      onClick: () => fileInputRef.current.click(),
+    },
+  ];
+
+  const { onContextMenu, ContextMenu } = useContextMenu(menuOptions);
+
+  const handleFileChange = async (event) => {
+    const files = event.target.files;
+
+    if (!files || files.length === 0) return;
+
+    const formData = new FormData();
+
+    formData.append("path", currentTab.path);
+    Array.from(files).forEach((file) => {
+      formData.append("files", file);
+    });
+
+    toastInfo("Uploading...");
+
+    await api
+      .post("/files", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
+        mutate();
+        toastInfo("Uploaded successfully");
+      });
+  };
 
   const handleDrop = (e) => {
     preventDefault(e);
@@ -51,6 +102,7 @@ const Directory = () => {
       onDragOver={displayCopy}
       onDragLeave={preventDefault}
       onDrop={handleDrop}
+      onContextMenu={onContextMenu}
     >
       <Headers />
       {files?.content?.map((file) => {
@@ -61,6 +113,13 @@ const Directory = () => {
           <File key={file.path} file={file} />
         );
       })}
+      <ContextMenu />
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        onChange={handleFileChange}
+      />
     </div>
   );
 };
