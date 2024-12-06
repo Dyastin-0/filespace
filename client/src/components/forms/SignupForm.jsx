@@ -9,7 +9,6 @@ import Button from "../ui/Button";
 import { testEmail, testPassword, testUsername } from "../../helpers/regex";
 import axios from "axios";
 import Separator from "../ui/Separator";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 const SignupForm = () => {
@@ -66,7 +65,7 @@ const SignupForm = () => {
     setSigningUp(true);
 
     try {
-      const { data } = await axios.post("/auth/signup", {
+      const { data } = await axios.post("/auth/sign-up", {
         username,
         email,
         password,
@@ -76,7 +75,7 @@ const SignupForm = () => {
       setCredentials({ username: "", email: "", password: "" });
       setConfirmedPassword("");
       toastInfo("Sign up success! Check your email for the verification link.");
-      navigate("/sign-in", { state: { from: "/signup" } });
+      navigate("/sign-in", { state: { from: "/sign-up" } });
     } catch (error) {
       toastError(error.response.data.message);
     } finally {
@@ -186,7 +185,7 @@ const SignupForm = () => {
         <p className="text-center text-xs">Or sign up with</p>
         <Button
           text="Google"
-          icon={<FontAwesomeIcon icon={faGoogle} />}
+          icon={faGoogle}
           onClick={(e) => {
             e.preventDefault();
             window.location.href = `${
