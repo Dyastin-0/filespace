@@ -53,6 +53,7 @@ const MoveFile = ({ SelectedFile }) => {
           className="w-full"
           text="Cancel"
           variant="ghost"
+          type="button"
           onClick={() => setOpen(false)}
         />
         <Tooltip

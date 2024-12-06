@@ -95,6 +95,7 @@ const ShareFile = ({ file }) => {
         <div className="grid grid-cols-3 gap-2 justify-end w-full">
           <Button
             text="Cancel"
+            type="button"
             onClick={() => setOpen(false)}
             variant="ghost"
           />
