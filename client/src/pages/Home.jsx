@@ -1,5 +1,5 @@
 import SideContent from "../components/SideContent";
-import MainContent from "../components/MainConent";
+import MainContent from "../components/MainContent";
 
 const Home = () => {
   return (

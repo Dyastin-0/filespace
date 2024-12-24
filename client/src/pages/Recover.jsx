@@ -3,13 +3,13 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
-import { ShowPassword } from "../components/utils/ShowPassword";
-import useToast from "../components/hooks/useToast";
+import { ShowPassword } from "../components/ui/ShowPassword";
 import { testPassword } from "../helpers/regex";
 import ProgressBar from "../components/ui/ProgressBar";
 import { Helmet } from "react-helmet";
+import useToast from "../components/hooks/useToast";
 
-const AccountRecovery = () => {
+const Recover = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const passwordRef = useRef(null);
@@ -17,7 +17,7 @@ const AccountRecovery = () => {
     password: "",
   });
 
-  const recoveryToken = searchParams.get("recoveryToken");
+  const passwordResetToken = searchParams.get("t");
 
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [isPasswordMatched, setIsPasswordMatched] = useState(false);
@@ -46,7 +46,7 @@ const AccountRecovery = () => {
   const submit = async (e) => {
     e.preventDefault();
 
-    if (!recoveryToken) return toastError("Missing recovery token.");
+    if (!passwordResetToken) return toastError("Missing password reset token.");
 
     if (passwordStrength.strength < 25) {
       return toastError(`Password should at least be 'Good.'`);
@@ -60,16 +60,17 @@ const AccountRecovery = () => {
 
     try {
       const { data } = await axios.post(
-        `/email/recover?recoveryToken=${recoveryToken}`,
+        "/auth/recover",
         {
-          password: credentials.password,
+          t: passwordResetToken,
+          newPassword: credentials.password,
         }
       );
       toastInfo(data.message);
       navigate("/sign-in");
     } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "Failed to recover your account.";
+        error.response.data || "Failed to reset your password.";
       toastError(errorMessage);
     } finally {
       setSubmitting(false);
@@ -79,14 +80,14 @@ const AccountRecovery = () => {
   return (
     <div className="flex flex-col p-4 justify-center items-center h-full w-full text-primary-foreground bg-primary rounded-xl">
       <Helmet>
-        <title>Account Recovery</title>
+        <title>Password Reset</title>
       </Helmet>
       <form
         className="flex flex-col w-[250px] max-w-full p-4 text-xs text-primary-foreground border border-secondary-accent rounded-md"
         onSubmit={submit}
       >
         <h2 className="w-full text-center pb-4 text-lg font-bold">
-          Account Recovery
+          Password Reset
         </h2>
 
         <div className="relative">
@@ -129,7 +130,7 @@ const AccountRecovery = () => {
             value={confirmedPassword}
             className={`${
               !isPasswordMatched && confirmedPassword
-                ? "shadow-[2px_2px_0_0] shadow-error"
+                ? "shadow-[2px_2px_0_0] shadow-danger"
                 : ""
             }`}
             onChange={(e) => setConfirmedPassword(e.target.value)}
@@ -145,11 +146,11 @@ const AccountRecovery = () => {
         <Button
           type="submit"
           disabled={submitting}
-          text={`${submitting ? "Updating..." : "Update Password"}`}
+          text={`${submitting ? "Resetting..." : "Reset Password"}`}
         />
       </form>
     </div>
   );
 };
 
-export default AccountRecovery;
+export default Recover;

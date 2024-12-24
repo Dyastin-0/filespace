@@ -2,25 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
-import useToast from "../components/hooks/useToast";
-import { useLocation, useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import useToast from "../components/hooks/useToast";
 
-const Verification = () => {
-  const { user } = useAuth();
+const Recovery = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const emailRef = useRef(null);
   const [sendingLink, setSendingLink] = useState(false);
   const [email, setEmail] = useState("");
   const { toastError, toastInfo } = useToast();
-
-  const previousLocation = location.state?.from;
-
-  useEffect(() => {
-    user && navigate("/home");
-  }, [user]);
 
   useEffect(() => {
     emailRef.current.focus();
@@ -30,14 +21,15 @@ const Verification = () => {
     e.preventDefault();
     setSendingLink(true);
     try {
-      await axios.post(`auth/send-verification`, { email });
-      toastInfo("Verification link sent!");
+      await axios.post("/auth/send-recovery", { email });
+      toastInfo("Recovery link sent!");
       setEmail("");
       navigate("/sign-in");
     } catch (error) {
       const errorMessage =
-        error.response.data || "Failed to send verification link.";
+        error.response.data || "Failed to send recovery link.";
       toastError(`${errorMessage}`);
+      console.error(error);
     } finally {
       setSendingLink(false);
     }
@@ -49,26 +41,19 @@ const Verification = () => {
       text-primary-foreground bg-primary rounded-md"
     >
       <Helmet>
-        <title>Send Verification Link</title>
+        <title>Account Recovery</title>
       </Helmet>
       <form
         className="flex flex-col w-[250px] max-w-full p-4 gap-4 text-xs text-primary-foreground
-				border border-secondary-accent rounded-md"
+        border border-secondary-accent rounded-md"
         onSubmit={submit}
       >
         <h2 className="w-full text-center text-lg font-bold">
-          Send Verification Link
+          Account Recovery
         </h2>
-        {previousLocation === "/sign-up" && (
-          <>
-            <p className="text-primary-foreground text-xs">
-              You can send another verification link if you did not receive one.
-            </p>
-            <p className="text-primary-foreground text-xs">
-              Links are only valid for 5 minutes.
-            </p>
-          </>
-        )}
+        <p className="text-primary-foreground text-xs">
+          Enter your email address to receive a recovery link.
+        </p>
         <Input
           required={true}
           type="email"
@@ -81,11 +66,11 @@ const Verification = () => {
         <Button
           type="submit"
           disabled={sendingLink}
-          text={`${sendingLink ? "Sending..." : "Send Verification Link"}`}
+          text={`${sendingLink ? "Sending..." : "Send Recovery Link"}`}
         />
       </form>
     </div>
   );
 };
 
-export default Verification;
+export default Recovery;

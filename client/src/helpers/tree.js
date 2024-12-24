@@ -26,7 +26,7 @@ const generateFileTree = (files) => {
   const root = new Node("directory", "Your files", "", null, 0);
 
   files.forEach((file) => {
-    const filePath = file.name;
+    const filePath = file.Name;
     const parts = filePath.split("/").filter(Boolean);
     let currentNode = root;
 
@@ -47,16 +47,16 @@ const generateFileTree = (files) => {
                 fullPath,
                 null,
                 0,
-                file.createdAt,
+                file.Created,
                 currentNode
               )
             : new Node(
                 type,
                 part,
                 fullPath,
-                file.link,
-                file.size,
-                file.createdAt,
+                file.Link,
+                file.Size,
+                file.Created,
                 currentNode
               );
         currentNode.addChild(childNode);

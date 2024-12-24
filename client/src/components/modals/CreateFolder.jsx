@@ -35,10 +35,16 @@ const CreateFolder = () => {
 
     toastInfo(`Creating ${folderName}...`);
 
+    const formData = new FormData();
+
+    formData.append("folder", folderName);
+    formData.append("path", currentTab.path);
+
     api
-      .post("/files/folder", {
-        folderName,
-        path: currentTab.path,
+      .post("/files", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
       .then(() => {
         mutate();

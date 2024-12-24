@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSearchParams } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import useAuth from "../hooks/useAuth";
+import { use } from "react";
 
 const Verification = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [message, setMessage] = useState(null);
-  const verificationToken = searchParams.get("verificationToken");
+  const {setUser, setToken, token} = useAuth();
+  const verificationToken = searchParams.get("t");
+
 
   useEffect(() => {
     const verifyAccount = async () => {
@@ -17,18 +22,26 @@ const Verification = () => {
 
       try {
         const response = await axios.post(
-          `/auth/verify?verificationToken=${verificationToken}`
+          `/auth/verify?t=${verificationToken}`
         );
-        setMessage(response.data.message);
+        setMessage("Account verified successfully.");
+        setUser(response.data.user);
+        setToken(response.data.token);
       } catch (error) {
         const errorMessage =
-          error.response?.data?.message || "Failed to verify your account.";
+          error.response.data || "Failed to verify your account.";
         setMessage(errorMessage);
       }
     };
 
     verifyAccount();
   }, [verificationToken]);
+
+  useEffect(() => {
+    if (token) {
+      navigate("/home");
+    }
+  }, [token]);
 
   return (
     <div

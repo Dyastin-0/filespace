@@ -102,10 +102,10 @@ const Navbar = ({ toggleSideNavbar }) => {
             variant="default_rounded"
             p={1}
             name={
-              user.profileImageURL ? (
+              user.ImageURL ? (
                 <img
                   loading="lazy"
-                  src={user.profileImageURL}
+                  src={user.ImageURL}
                   className="overflow-hidden max-w-[30px] max-h-[30px] rounded-full"
                 />
               ) : (
@@ -113,14 +113,14 @@ const Navbar = ({ toggleSideNavbar }) => {
                   className="flex justify-center items-center w-[30px] h-[30px] rounded-full
                   font-semibold text-primary-highlight text-xs"
                 >
-                  <p className="text-center">{user.username[0]}</p>
+                  <p className="text-center">{user.Username[0]}</p>
                 </div>
               )
             }
           >
             <DropdownItem asChild={true}>
               <DomLink
-                to={`/${user.username}`}
+                to={`/${user.Username}`}
                 className="flex p-2 text-xs text-primary-foreground outline-none rounded-md
                 transition-all duration-300 w-full justify-end items-center
                 hover:bg-primary hover:cursor-pointer focus:bg-primary"

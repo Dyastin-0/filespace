@@ -14,7 +14,7 @@ const easeOutCubic = (t) => --t * t * t + 1;
 
 const Storage = () => {
   const { user } = useAuth();
-  const usedStorage = user?.usedStorage || 0;
+  const usedStorage = user?.UsedStorage || 0;
   const [displayedStorage, setDisplayedStorage] = useState(0);
 
   useEffect(() => {

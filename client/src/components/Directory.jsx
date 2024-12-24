@@ -46,7 +46,7 @@ const Directory = () => {
 
     const formData = new FormData();
 
-    formData.append("path", currentTab.path);
+    formData.append("path", files.path);
     Array.from(files).forEach((file) => {
       formData.append("files", file);
     });

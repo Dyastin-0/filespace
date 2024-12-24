@@ -36,7 +36,7 @@ const Folder = ({ file }) => {
       message: `Are you sure you want to delete ${file.name} folder?`,
       onConfirm: () => {
         toastInfo(`Deleting ${file.name}...`);
-        api.delete("/files/folder", { data: { path: file.path } }).then(() => {
+        api.delete("/files", { data: { files: [file.path + "/"] } }).then(() => {
           mutate();
           toastInfo(`Deleted ${file.name}`);
         });

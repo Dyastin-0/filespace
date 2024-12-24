@@ -25,13 +25,14 @@ const MoveFile = ({ SelectedFile }) => {
       message: `Are you sure you want to move ${SelectedFile.name} to ${currentTab.name}?`,
       onConfirm: () => {
         toastInfo(`Moving ${SelectedFile.name}...`);
-        api
-          .put("/files", {
-            file: SelectedFile.name,
-            filePath: `${SelectedFile.path}`,
-            path: `${currentTab.path}`,
+        api.put("/files/move", {
+          file: {
+            name: SelectedFile.name,
+            path: SelectedFile.path,
             type: SelectedFile.type,
-          })
+          },
+          targetPath: currentTab.path,
+        })
           .then(() => {
             mutate();
             toastInfo(`Moved ${SelectedFile.name}`);

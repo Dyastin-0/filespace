@@ -20,7 +20,7 @@ const SigninForm = ({}) => {
   const location = useLocation();
   const [signingIn, setSigningIn] = useState(false);
   const { setToken, setUser, token } = useAuth();
-  const { toastError, toastInfo } = useToast();
+  const { toastInfo } = useToast();
 
   const previousPath = location.state?.from || "/home";
 
@@ -68,8 +68,8 @@ const SigninForm = ({}) => {
       setCredentials({ email: "", password: "" });
       navigate(previousPath);
     } catch (error) {
-      const errorMessage = error.response.data.message;
-      toastError(`${errorMessage}`);
+      const errorMessage = error.response.data;
+      toastInfo(`${errorMessage}`);
     } finally {
       setSigningIn(false);
     }
@@ -114,7 +114,7 @@ const SigninForm = ({}) => {
         )}
       </div>
       <Link
-        to={`/account/recover`}
+        to={`/auth/recovery`}
         className="pb-2 w-fit outline-none text-primary-foreground text-xs focus:text-primary-highlight focus:underline"
       >
         {" "}

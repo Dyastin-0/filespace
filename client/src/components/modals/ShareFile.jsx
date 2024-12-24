@@ -55,7 +55,7 @@ const ShareFile = ({ file }) => {
       onConfirm: () => {
         toastInfo(`Sending ${file.name}...`);
         api
-          .post("/files/send", {
+          .post("/files/share", {
             email,
             file: file.path,
             expiration: expiration,
