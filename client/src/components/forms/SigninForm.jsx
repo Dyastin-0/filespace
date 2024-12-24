@@ -63,7 +63,7 @@ const SigninForm = ({}) => {
     try {
       const { data } = await axios.post("/auth", { email, password });
       setToken(data.accessToken);
-      setUser(data.user);
+      setUser(data.User);
       toastInfo("Signed in!");
       setCredentials({ email: "", password: "" });
       navigate(previousPath);
