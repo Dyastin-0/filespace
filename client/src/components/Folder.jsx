@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { getSize } from "../helpers/size";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import useAxios from "../hooks/useAxios";
@@ -24,8 +23,8 @@ const Folder = ({ file }) => {
   const { toastInfo } = useToast();
   const { addTab } = useTabs();
 
-  const sizeBytes = getSize(file);
-  const sizeKB = (sizeBytes / 1024).toFixed(2);
+  //const sizeKB = getSize(file.size); // On-demand computation
+  const sizeKB = (file.size / 1024).toFixed(2); // Pre-computed
   const sizeMB = (sizeKB / 1024).toFixed(2);
 
   const isMB = sizeMB >= 1;
@@ -36,10 +35,12 @@ const Folder = ({ file }) => {
       message: `Are you sure you want to delete ${file.name} folder?`,
       onConfirm: () => {
         toastInfo(`Deleting ${file.name}...`);
-        api.delete("/files", { data: { files: [file.path + "/"] } }).then(() => {
-          mutate();
-          toastInfo(`Deleted ${file.name}`);
-        });
+        api
+          .delete("/files", { data: { files: [file.path + "/"] } })
+          .then(() => {
+            mutate();
+            toastInfo(`Deleted ${file.name}`);
+          });
       },
     });
   };
@@ -93,7 +94,7 @@ const Folder = ({ file }) => {
         />
         <TruncatedText
           tooltip={false}
-          text={dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
+          text={dayjs.unix(dayjs(file.created).unix()).fromNow()}
         />
         <ContextMenu />
       </div>

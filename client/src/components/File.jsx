@@ -111,7 +111,7 @@ const File = ({ file }) => {
         />
         <TruncatedText
           tooltip={false}
-          text={dayjs.unix(dayjs(file.createdAt).unix()).fromNow()}
+          text={dayjs.unix(dayjs(file.created).unix()).fromNow()}
         />
         <ContextMenu />
       </div>

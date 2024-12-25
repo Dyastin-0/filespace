@@ -38,7 +38,7 @@ const CreateFolder = () => {
     const formData = new FormData();
 
     formData.append("folder", folderName);
-    formData.append("path", currentTab.path);
+    formData.append("path", currentTab?.path || "");
 
     api
       .post("/files", formData, {
