@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import useModal from "../hooks/useModal";
 import Button from "../ui/Button";
 import useAxios from "../../hooks/useAxios";
-import useTabs from "../../hooks/useTabs";
+import useDir from "../../hooks/useDir";
 import useFiles from "../../hooks/useFiles";
 import useToast from "../hooks/useToast";
 import NormalInput from "../ui/NormalInput";
@@ -14,7 +14,7 @@ const CreateFolder = () => {
   const { setOpen } = useModal();
   const { api } = useAxios();
   const { mutate } = useFiles();
-  const { currentTab } = useTabs();
+  const { currentDir } = useDir();
   const { toastInfo } = useToast();
 
   const inputRef = useRef(null);
@@ -38,7 +38,7 @@ const CreateFolder = () => {
     const formData = new FormData();
 
     formData.append("folder", folderName);
-    formData.append("path", currentTab?.path || "");
+    formData.append("path", currentDir?.path || "");
 
     api
       .post("/files", formData, {

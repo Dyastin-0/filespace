@@ -8,13 +8,13 @@ import { Dropdown, DropdownItem } from "./ui/Dropdown";
 import CreateFolder from "./modals/CreateFolder";
 import useModal from "./hooks/useModal";
 import useAxios from "../hooks/useAxios";
-import useTabs from "../hooks/useTabs";
+import useDir from "../hooks/useDir";
 import useFiles from "../hooks/useFiles";
 import useToast from "./hooks/useToast";
 import Separator from "./ui/Separator";
 
 const Create = () => {
-  const { currentTab } = useTabs();
+  const { currentDir } = useDir();
   const { setModal, setOpen } = useModal();
   const { api } = useAxios();
   const { mutate } = useFiles();
@@ -29,7 +29,7 @@ const Create = () => {
 
     const formData = new FormData();
 
-    formData.append("path", currentTab.path);
+    formData.append("path", currentDir.path);
     Array.from(files).forEach((file) => {
       formData.append("files", file);
     });

@@ -3,9 +3,9 @@ import { faFolder, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion, AnimatePresence } from "framer-motion";
 import useFiles from "../hooks/useFiles";
-import useTabs from "../hooks/useTabs";
+import useDir from "../hooks/useDir";
 
-const FolderExplorer = ({ folder, onClick }) => {
+const FolderTree = ({ folder, onClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const hasChildren =
     folder.children &&
@@ -59,7 +59,7 @@ const FolderExplorer = ({ folder, onClick }) => {
             {folder.children.map(
               (child) =>
                 child.type === "directory" && (
-                  <FolderExplorer
+                  <FolderTree
                     key={child.path}
                     folder={child}
                     onClick={onClick}
@@ -73,17 +73,17 @@ const FolderExplorer = ({ folder, onClick }) => {
   );
 };
 
-const RootFolders = () => {
+const FolderExplorer = () => {
   const { files } = useFiles();
-  const { updateTabsToCurrentPath } = useTabs();
+  const { switchDir } = useDir();
 
   if (!files) return null;
 
   return (
     <div className="flex flex-col w-full bg-secondary rounded-md p-2 gap-2">
-      <FolderExplorer folder={files} onClick={updateTabsToCurrentPath} />
+      <FolderTree folder={files} onClick={(dir) => switchDir(dir)} />
     </div>
   );
 };
 
-export default RootFolders;
+export default FolderExplorer;

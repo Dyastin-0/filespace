@@ -15,13 +15,13 @@ export const getUpdatedDirectory = (currentPath, files) => {
   return currentContent || [];
 };
 
-export const setCurrentDirectory = (prevTabs, currentTabPath, files) => {
+export const setCurrentDirectory = (prevTabs, currentDirPath, files) => {
   if (prevTabs.length === 0) {
     return [{ name: "Your files", path: "", content: files.children }];
   }
 
   return prevTabs.map((tab) => {
-    if (tab.path === currentTabPath) {
+    if (tab.path === currentDirPath) {
       const updatedContent = getUpdatedDirectory(tab.path, files);
       return {
         ...tab,

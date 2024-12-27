@@ -7,7 +7,7 @@ import useToast from "./hooks/useToast";
 import useFiles from "../hooks/useFiles";
 import useConfirm from "./hooks/useConfirm";
 import useContextMenu from "./hooks/useContextMenu";
-import useTabs from "../hooks/useTabs";
+import useDir from "../hooks/useDir";
 import MoveFile from "./modals/MoveFile";
 import useModal from "./hooks/useModal";
 import TruncatedText from "./ui/TruncatedText";
@@ -21,7 +21,7 @@ const Folder = ({ file }) => {
   const { mutate } = useFiles();
   const { api } = useAxios();
   const { toastInfo } = useToast();
-  const { addTab } = useTabs();
+  const { switchDir } = useDir();
 
   //const sizeKB = getSize(file.size); // On-demand computation
   const sizeKB = (file.size / 1024).toFixed(2); // Pre-computed
@@ -80,7 +80,7 @@ const Folder = ({ file }) => {
         key={file.path}
         className="grid grid-cols-4 p-2 gap-2 text-xs rounded cursor-pointer focus:bg-primary hover:bg-primary
       transition-all duration-300"
-        onDoubleClick={() => isFolder && addTab(file)}
+        onDoubleClick={() => isFolder && switchDir(file)}
         onContextMenu={onContextMenu}
       >
         <div className="flex gap-2 font-semibold">

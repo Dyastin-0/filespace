@@ -6,7 +6,7 @@ import useAxios from "../hooks/useAxios";
 import useFiles from "../hooks/useFiles";
 import useToast from "./hooks/useToast";
 import Headers from "./Headers";
-import useTabs from "../hooks/useTabs";
+import useDir from "../hooks/useDir";
 import useContextMenu from "./hooks/useContextMenu";
 import { faFileUpload, faFolderPlus } from "@fortawesome/free-solid-svg-icons";
 import useModal from "./hooks/useModal";
@@ -16,7 +16,7 @@ const Directory = () => {
   const { api } = useAxios();
   const { mutate } = useFiles();
   const { toastInfo } = useToast();
-  const { currentTab: files } = useTabs();
+  const { currentDir: files } = useDir();
   const { setModal, setOpen } = useModal();
 
   const fileInputRef = useRef(null);
@@ -105,7 +105,7 @@ const Directory = () => {
       onContextMenu={onContextMenu}
     >
       <Headers />
-      {files?.content?.map((file) => {
+      {files?.children?.map((file) => {
         const isFolder = file.type === "directory";
         return isFolder ? (
           <Folder key={file.path} file={file} />

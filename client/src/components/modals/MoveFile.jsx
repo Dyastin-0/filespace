@@ -1,38 +1,41 @@
 import { faFile, faFolder } from "@fortawesome/free-solid-svg-icons";
 import useAxios from "../../hooks/useAxios";
 import useFiles from "../../hooks/useFiles";
-import useTabs from "../../hooks/useTabs";
+import useDir from "../../hooks/useDir";
 import useConfirm from "../hooks/useConfirm";
 import useToast from "../hooks/useToast";
-import RootFolders from "../RootFolders";
+import FolderExplorer from "../FolderExplorer";
 import Button from "../ui/Button";
 import GenericModal from "./GenericModal";
 import Tooltip from "../ui/Tooltip";
+import useModal from "../hooks/useModal";
 
 const MoveFile = ({ SelectedFile }) => {
   const { mutate } = useFiles();
+  const { setOpen } = useModal();
   const confirm = useConfirm();
   const { api } = useAxios();
   const { toastInfo } = useToast();
-  const { currentTab } = useTabs();
+  const { currentDir } = useDir();
 
   const handleMove = () => {
-    if (SelectedFile.path === currentTab.path)
+    if (SelectedFile.path === currentDir.path)
       return toastInfo("File is already in this folder.");
 
     confirm({
       title: SelectedFile.type === "directory" ? "Move Folder" : "Move File",
-      message: `Are you sure you want to move ${SelectedFile.name} to ${currentTab.name}?`,
+      message: `Are you sure you want to move ${SelectedFile.name} to ${currentDir.name}?`,
       onConfirm: () => {
         toastInfo(`Moving ${SelectedFile.name}...`);
-        api.put("/files/move", {
-          file: {
-            name: SelectedFile.name,
-            path: SelectedFile.path,
-            type: SelectedFile.type,
-          },
-          targetPath: currentTab.path,
-        })
+        api
+          .put("/files/move", {
+            file: {
+              name: SelectedFile.name,
+              path: SelectedFile.path,
+              type: SelectedFile.type,
+            },
+            targetPath: currentDir.path,
+          })
           .then(() => {
             mutate();
             toastInfo(`Moved ${SelectedFile.name}`);
@@ -48,7 +51,7 @@ const MoveFile = ({ SelectedFile }) => {
 
   return (
     <GenericModal title={`Move ${SelectedFile.name}`}>
-      <RootFolders />
+      <FolderExplorer />
       <div className="grid grid-cols-2 gap-2 w-full">
         <Button
           className="w-full"
@@ -60,7 +63,7 @@ const MoveFile = ({ SelectedFile }) => {
         <Tooltip
           text={`Move ${
             SelectedFile.type === "directory" ? "folder" : "file"
-          } to ${currentTab.path}`}
+          } to ${currentDir.path}`}
         >
           <Button
             text="Move"

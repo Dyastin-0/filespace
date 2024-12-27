@@ -1,4 +1,4 @@
-class Node {
+class File {
   constructor(type, name, path, link, size, created, parent = null) {
     this.type = type;
     this.name = name;
@@ -48,13 +48,16 @@ class Node {
   }
 }
 
-const generateFileTree = (files) => {
-  const root = new Node("directory", "Your files", "", null, 0, null);
+const generateFileTreeWithMap = (files) => {
+  const tree = new File("directory", "Your files", "", null, 0, null);
+  const map = new Map();
+
+  map.set(tree.path, tree);
 
   files.forEach((file) => {
     const filePath = file.Name;
     const parts = filePath.split("/").filter(Boolean);
-    let currentNode = root;
+    let currentNode = tree;
 
     parts.forEach((part, index) => {
       const isLastPart = index === parts.length - 1;
@@ -68,8 +71,8 @@ const generateFileTree = (files) => {
 
         childNode =
           type === "directory"
-            ? new Node(type, part, fullPath, null, 0, file.Created, currentNode)
-            : new Node(
+            ? new File(type, part, fullPath, null, 0, file.Created, currentNode)
+            : new File(
                 type,
                 part,
                 fullPath,
@@ -78,14 +81,16 @@ const generateFileTree = (files) => {
                 file.Created,
                 currentNode
               );
+
         currentNode.addChild(childNode);
+        map.set(fullPath, childNode);
       }
 
       currentNode = childNode;
     });
   });
 
-  return root;
+  return { tree, map };
 };
 
-export default generateFileTree;
+export default generateFileTreeWithMap;

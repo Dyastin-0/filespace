@@ -1,8 +1,8 @@
 import { createContext, useContext } from "react";
 import useSWR from "swr";
-import generateFileTree from "../helpers/tree";
 import useAuth from "./useAuth";
 import useAxios from "./useAxios";
+import generateFileTreeWithMap from "../helpers/tree";
 
 const FilesContext = createContext();
 
@@ -14,17 +14,17 @@ export const FilesProvider = ({ children }) => {
     isAxiosReady && user && token ? `${user._id}/files` : null,
     async () => {
       const response = await api.get("/files");
-      return generateFileTree(response.data);
+      return generateFileTreeWithMap(response.data);
     },
     {
       revalidateOnFocus: false,
     }
   );
 
+  const value = { files: files?.tree, fileMap: files?.map, mutate };
+
   return (
-    <FilesContext.Provider value={{ files, mutate }}>
-      {children}
-    </FilesContext.Provider>
+    <FilesContext.Provider value={value}>{children}</FilesContext.Provider>
   );
 };
 

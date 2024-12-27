@@ -6,7 +6,7 @@ import { AuthProvider } from "./hooks/useAuth.jsx";
 import { ToastProvider } from "./components/hooks/useToast.jsx";
 import { ModalProvider } from "./components/hooks/useModal.jsx";
 import { FilesProvider } from "./hooks/useFiles.jsx";
-import { TabProvider } from "./hooks/useTabs.jsx";
+import { TabProvider } from "./hooks/useDir.jsx";
 
 createRoot(document.getElementById("root")).render(
   <ToastProvider>

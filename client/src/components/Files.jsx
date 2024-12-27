@@ -2,11 +2,11 @@ import useAuth from "../hooks/useAuth";
 import Directory from "./Directory";
 import DirectoryTabs from "./DirectoryTabs";
 import Separator from "./ui/Separator";
-import useTabs from "../hooks/useTabs";
+import useFiles from "../hooks/useFiles";
 
 const Files = () => {
   const { user } = useAuth();
-  const { tabs } = useTabs();
+  const { fileMap } = useFiles();
 
   return (
     <div className="flex flex-col w-full h-full bg-primary gap-2 rounded-md text-xs">
@@ -17,7 +17,7 @@ const Files = () => {
         <DirectoryTabs />
       </div>
       <Separator />
-      {tabs.length > 0 && <Directory />}
+      {fileMap?.size > 0 && <Directory />}
     </div>
   );
 };

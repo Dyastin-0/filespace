@@ -1,6 +1,6 @@
 import Create from "./Create";
 import Storage from "./Storage";
-import RootFolders from "./RootFolders";
+import FolderExplorer from "./FolderExplorer";
 import Separator from "./ui/Separator";
 
 const SideContent = () => {
@@ -8,7 +8,7 @@ const SideContent = () => {
     <div className="flex flex-col min-w-[220px] h-full bg-primary rounded-md gap-2 p-4">
       <Create />
       <Separator />
-      <RootFolders />
+      <FolderExplorer />
       <Separator />
       <Storage />
     </div>

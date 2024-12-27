@@ -13,7 +13,7 @@ import useAxios from "../hooks/useAxios";
 import useToast from "./hooks/useToast";
 import useConfirm from "./hooks/useConfirm";
 import useContextMenu from "./hooks/useContextMenu";
-import useTabs from "../hooks/useTabs";
+import useDir from "../hooks/useDir";
 import useModal from "./hooks/useModal";
 import MoveFile from "./modals/MoveFile";
 import TruncatedText from "./ui/TruncatedText";
@@ -28,7 +28,7 @@ const File = ({ file }) => {
   const { mutate } = useFiles();
   const { api } = useAxios();
   const { toastInfo } = useToast();
-  const { addTab } = useTabs();
+  const { switchDir } = useDir();
 
   const sizeKB = (file.size / 1024).toFixed(2);
   const sizeMB = (sizeKB / 1024).toFixed(2);
@@ -45,7 +45,7 @@ const File = ({ file }) => {
           message: `Are you sure you want to delete ${file.name} file?`,
           onConfirm: () => {
             toastInfo(`Deleting ${file.name}...`);
-            api.delete("/files", {data: { files: [file.path] }}).then(() => {
+            api.delete("/files", { data: { files: [file.path] } }).then(() => {
               mutate();
               toastInfo(`Deleted ${file.name}`);
             });
@@ -89,7 +89,7 @@ const File = ({ file }) => {
         key={file.path}
         className="grid grid-cols-4 p-2 gap-2 text-xs rounded cursor-pointer focus:bg-primary hover:bg-primary
       transition-all duration-300"
-        onDoubleClick={() => isFolder && addTab(file)}
+        onDoubleClick={() => isFolder && switchDir(file)}
         onContextMenu={onContextMenu}
       >
         <div className="flex gap-2">
