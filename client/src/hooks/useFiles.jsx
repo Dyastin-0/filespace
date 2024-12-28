@@ -14,7 +14,7 @@ export const FilesProvider = ({ children }) => {
     isAxiosReady && user && token ? `${user._id}/files` : null,
     async () => {
       const response = await api.get("/files");
-      return generateFileTreeWithMap(response.data);
+      return generateFileTreeWithMap(response.data || []);
     },
     {
       revalidateOnFocus: false,

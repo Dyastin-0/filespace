@@ -54,6 +54,10 @@ const generateFileTreeWithMap = (files) => {
 
   map.set(tree.path, tree);
 
+  if (files.length === 0) {
+    return { tree, map };
+  }
+
   files.forEach((file) => {
     const filePath = file.Name;
     const parts = filePath.split("/").filter(Boolean);

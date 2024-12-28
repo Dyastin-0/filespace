@@ -25,7 +25,7 @@ const Tab = ({ tab }) => {
           }}
         >
           {tab.icon}
-          {tab.name && <span>{tab.name}</span>}
+          {tab.path !== "" && <span>{tab.name}</span>}
         </div>
       </Tooltip>
       <div className="flex justify-center items-center h-full p-2">

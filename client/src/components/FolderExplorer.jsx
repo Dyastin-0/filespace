@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { faFolder, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFolder,
+  faChevronDown,
+  faComputer,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion, AnimatePresence } from "framer-motion";
 import useFiles from "../hooks/useFiles";
@@ -43,7 +47,7 @@ const FolderTree = ({ folder, onClick }) => {
             }}
           />
         )}
-        <FontAwesomeIcon icon={faFolder} className="text-primary-highlight" />
+        <FontAwesomeIcon icon={folder.path === "" ? faComputer : faFolder} />
         <span className="font-semibold ml-2">{folder.name}</span>
       </div>
 

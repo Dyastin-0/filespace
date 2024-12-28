@@ -23,7 +23,7 @@ const Tabs = () => {
 
   const rootTab = {
     icon: <FontAwesomeIcon icon={faComputer} />,
-    name: null,
+    name: "Your files",
     path: "",
   };
 
