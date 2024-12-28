@@ -31,13 +31,19 @@ const Tabs = () => {
 
   return (
     <div
-      className="flex w-full gap-2 hover:cursor-text"
+      className="flex w-full h-[32px] gap-2 hover:cursor-text"
       onClick={() => setInputFocused(true)}
     >
       {inputFocused ? (
         <FindDir focus={inputFocused} setFocus={setInputFocused} />
       ) : (
-        tabs?.map((tab) => <Tab key={tab.path} tab={tab} />)
+        tabs?.map((tab, index) => (
+          <Tab
+            key={tab.path}
+            tab={tab}
+            isLastPart={index === tabs.length - 1}
+          />
+        ))
       )}
     </div>
   );

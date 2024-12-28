@@ -4,7 +4,7 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import useDir from "../hooks/useDir";
 import useFiles from "../hooks/useFiles";
 
-const Tab = ({ tab }) => {
+const Tab = ({ tab, isLastPart }) => {
   const { fileMap } = useFiles();
   const { currentDir, switchDir } = useDir();
 
@@ -28,9 +28,11 @@ const Tab = ({ tab }) => {
           {tab.path !== "" && <span>{tab.name}</span>}
         </div>
       </Tooltip>
-      <div className="flex justify-center items-center h-full p-2">
-        <FontAwesomeIcon icon={faChevronRight} />
-      </div>
+      {!isLastPart && (
+        <div className="flex justify-center items-center h-full p-2">
+          <FontAwesomeIcon icon={faChevronRight} />
+        </div>
+      )}
     </div>
   );
 };
