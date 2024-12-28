@@ -1,15 +1,9 @@
-import { useState, useRef, useEffect } from "react";
-import useFiles from "../hooks/useFiles";
+import { useState } from "react";
 import useDir from "../hooks/useDir";
-import useToast from "./hooks/useToast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronRight,
-  faComputer,
-  faFolder,
-} from "@fortawesome/free-solid-svg-icons";
+import { faComputer, faFolder } from "@fortawesome/free-solid-svg-icons";
 import Tab from "./Tab";
-import SearchFile from "./SearchFile";
+import FindDir from "./FindDir";
 
 const Tabs = () => {
   const { currentDir } = useDir();
@@ -41,7 +35,7 @@ const Tabs = () => {
       onClick={() => setInputFocused(true)}
     >
       {inputFocused ? (
-        <SearchFile focus={inputFocused} setFocus={setInputFocused} />
+        <FindDir focus={inputFocused} setFocus={setInputFocused} />
       ) : (
         tabs?.map((tab) => <Tab key={tab.path} tab={tab} />)
       )}

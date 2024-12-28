@@ -14,17 +14,17 @@ const SearchFile = ({ focus, setFocus }) => {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       const file = fileMap.get(inputRef.current.value);
-      if (file) {
+      if (file && file.type === "directory") {
         switchDir(file);
       } else {
-        toastInfo("File not found");
+        toastInfo("Directory not found");
       }
     }
   };
 
   useEffect(() => {
     if (focus && inputRef.current) {
-      // inputRef.current.focus();
+      inputRef.current.focus();
       inputRef.current.value = currentDir?.path;
     }
   }, [focus]);
