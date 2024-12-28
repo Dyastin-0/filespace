@@ -1,10 +1,19 @@
+import { useState, useRef, useEffect } from "react";
 import useFiles from "../hooks/useFiles";
 import useDir from "../hooks/useDir";
-import Tooltip from "./ui/Tooltip";
+import useToast from "./hooks/useToast";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronRight,
+  faComputer,
+  faFolder,
+} from "@fortawesome/free-solid-svg-icons";
+import Tab from "./Tab";
+import SearchFile from "./SearchFile";
 
 const Tabs = () => {
-  const { fileMap } = useFiles();
-  const { currentDir, switchDir } = useDir();
+  const { currentDir } = useDir();
+  const [inputFocused, setInputFocused] = useState(false);
 
   const pathParts = currentDir?.path.split("/").filter(Boolean);
 
@@ -12,35 +21,30 @@ const Tabs = () => {
     const fullPath = pathParts.slice(0, index + 1).join("/");
 
     return {
+      icon: <FontAwesomeIcon icon={faFolder} />,
       name: part,
       path: fullPath,
     };
   });
 
   const rootTab = {
-    name: "Your files",
+    icon: <FontAwesomeIcon icon={faComputer} />,
+    name: null,
     path: "",
   };
 
   tabs?.unshift(rootTab);
 
   return (
-    <div className="flex gap-2">
-      {tabs?.map((tab) => (
-        <Tooltip key={tab.path} text={`Navigate to ${tab.name}`}>
-          <div
-            className={`w-fit p-2 cursor-pointer rounded-md transition-all duration-300
-              hover:bg-secondary ${
-                tab.path === currentDir?.path
-                  ? "bg-secondary text-highlight"
-                  : "text-primary-foreground"
-              }`}
-            onClick={() => switchDir(fileMap.get(tab.path))}
-          >
-            {tab.name}
-          </div>
-        </Tooltip>
-      ))}
+    <div
+      className="flex w-full gap-2 hover:cursor-text"
+      onClick={() => setInputFocused(true)}
+    >
+      {inputFocused ? (
+        <SearchFile focus={inputFocused} setFocus={setInputFocused} />
+      ) : (
+        tabs?.map((tab) => <Tab key={tab.path} tab={tab} />)
+      )}
     </div>
   );
 };

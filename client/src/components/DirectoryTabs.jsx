@@ -2,7 +2,7 @@ import Tabs from "./Tabs";
 
 const DirectoryTabs = () => {
   return (
-    <div className="flex overflow-x-auto gap-1 border-secondary">
+    <div className="flex w-full overflow gap-1 border-secondary">
       <Tabs />
     </div>
   );
