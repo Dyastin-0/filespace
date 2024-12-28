@@ -16,7 +16,7 @@ const Directory = () => {
   const { api } = useAxios();
   const { mutate } = useFiles();
   const { toastInfo } = useToast();
-  const { currentDir: files } = useDir();
+  const { currentDir } = useDir();
   const { setModal, setOpen } = useModal();
 
   const fileInputRef = useRef(null);
@@ -40,20 +40,21 @@ const Directory = () => {
   const { onContextMenu, ContextMenu } = useContextMenu(menuOptions);
 
   const handleFileChange = async (event) => {
-    const files = event.target.files;
+    const newFiles = Array.from(event.target.files);
 
-    if (!files || files.length === 0) return;
+    if (!newFiles || newFiles.length === 0) return;
 
     const formData = new FormData();
-
-    formData.append("path", files.path);
-    Array.from(files).forEach((file) => {
+    formData.append("path", currentDir.path);
+    newFiles.forEach((file) => {
       formData.append("files", file);
     });
 
-    toastInfo("Uploading...");
+    const message = newFiles.length > 1 ? "files" : "file";
 
-    await api
+    toastInfo(`Uploading ${newFiles.length} ${message}...`);
+
+    api
       .post("/files", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -61,7 +62,7 @@ const Directory = () => {
       })
       .then(() => {
         mutate();
-        toastInfo("Uploaded successfully");
+        toastInfo(`Uploaded ${newFiles.length} ${message}`);
       });
   };
 
@@ -75,7 +76,7 @@ const Directory = () => {
     }
 
     const formData = new FormData();
-    formData.append("path", files.path);
+    formData.append("path", currentDir.path);
     newFiles.forEach((file) => {
       formData.append("files", file);
     });
@@ -105,7 +106,7 @@ const Directory = () => {
       onContextMenu={onContextMenu}
     >
       <Headers />
-      {files?.children?.map((file) => {
+      {currentDir?.children?.map((file) => {
         const isFolder = file.type === "directory";
         return isFolder ? (
           <Folder key={file.path} file={file} />
