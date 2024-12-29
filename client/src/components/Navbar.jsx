@@ -35,7 +35,7 @@ const Navbar = ({ toggleSideNavbar }) => {
       await axios.post("/auth/sign-out");
       setToken(null);
       setUser(null);
-      mutate(null, false);
+      mutate({ root: null, fileMap: null }, false);
       navigate("/");
     } catch (error) {
       console.error(error);

@@ -1,11 +1,9 @@
-import useAuth from "../hooks/useAuth";
 import Directory from "./Directory";
 import DirectoryTabs from "./DirectoryTabs";
 import Separator from "./ui/Separator";
 import useFiles from "../hooks/useFiles";
 
 const Files = () => {
-  const { user } = useAuth();
   const { fileMap } = useFiles();
 
   return (
