@@ -1,0 +1,4 @@
+import{Z as m,r as d,j as a,s as f}from"./index-BKNLTqy2.js";const _=m.forwardRef(({onChange:o,type:s,value:e,id:t,placeholder:n,required:i,className:c,autoComplete:l},x)=>{const[p,r]=d.useState(!1);return a.jsxs("div",{className:"relative flex flex-col justify-center h-[60px]",children:[a.jsx(f.label,{initial:{y:0,x:5,fontSize:"0.75rem"},animate:e||p?{y:-25,x:0,fontSize:"0.65rem",color:"var(--highlight)"}:{y:0,x:5,fontSize:"0.75rem",color:"var(--text-primary)"},transition:{duration:.3,ease:"easeInOut"},className:"absolute",htmlFor:t,children:n}),a.jsx("input",{ref:x,id:t,type:s,required:i,onFocus:()=>r(!0),onBlur:()=>r(!1),autoComplete:l,className:`bg-transparent rounded-md p-2 outline-none text-primary-foreground
+				transition-all duration-300
+				focus:shadow-[var(--accent-secondary)_0_2px_0_0]
+				${e?"shadow-[var(--highlight)_2px_2px_0_0px]":"shadow-[var(--accent-secondary)_0px_2px_0_0]"} ${c}`,value:e,onChange:u=>o(u)})]})});export{_ as I};

@@ -15,8 +15,6 @@ const Recover = lazy(() => import("./pages/Recover"));
 axios.defaults.baseURL = import.meta.env.VITE_BASE_API_URL;
 axios.defaults.withCredentials = true;
 
-console.log(import.meta.env.VITE_BASE_API_URL);
-
 const App = () => {
   return (
     <>

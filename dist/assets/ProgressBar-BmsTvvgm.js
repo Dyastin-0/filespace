@@ -1,0 +1,1 @@
+import{j as s,s as r}from"./index-BKNLTqy2.js";const i=({value:t,text:a,visible:e})=>s.jsxs(r.div,{initial:{height:0,opacity:0},animate:{height:e?"fit-content":0,opacity:e?1:0},className:"flex flex-col items-end w-full overflow-hidden",children:[s.jsx("progress",{className:"progress-bar w-full",value:t,max:"100"}),s.jsx("h6",{className:"text-xs",children:a})]});export{i as P};

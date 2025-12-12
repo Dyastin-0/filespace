@@ -1,0 +1,1 @@
+import{j as e,F as t,X as a,Y as r}from"./index-BKNLTqy2.js";const n=({showPassword:s,setShowPassword:o})=>e.jsx("div",{className:"absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer transition-opacity duration-200",onClick:()=>o(!s),children:e.jsx(t,{icon:s?a:r,className:"text-primary-foreground"})});export{n as S};
